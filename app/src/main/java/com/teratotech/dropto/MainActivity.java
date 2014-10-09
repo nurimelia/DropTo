@@ -20,12 +20,14 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
+
 
     public final static String EXTRA_MESSAGE = "com.teratotech.dropto.MESSAGE";
     private static final String tag = "MainActivity";
@@ -63,6 +65,9 @@ public class MainActivity extends Activity {
 
         params = getWindow().getAttributes();
         params.width = width;
+
+
+
     }
 
 

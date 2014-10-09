@@ -9,9 +9,12 @@
     tools:context="com.teratotech.dropto.DroptoCreateFolder"
     android:background="#FFFFFF">
 
-    <TextView
-        android:text="@string/hello_world"
+    <EditText
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/editText2"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
