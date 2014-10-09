@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.teratotech.dropto.fragment.UploadActivity" >
+
+
+    <!-- Find folder / will display always -->
+    <item android:id="@+id/action_folder"
+        android:icon="@drawable/ic_action_storage"
+        android:title="@string/action_folder"
+        android:showAsAction="ifRoom" />
+
+    <!-- Upload / will display always -->
+    <item android:id="@+id/action_upload"
+        android:icon="@drawable/ic_action_upload"
+        android:title="@string/action_upload"
+        android:onClick="onOptionsItemSelected"
+        android:showAsAction="ifRoom"
+
+
+        />
+</menu>
