@@ -18,6 +18,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+//import android.widget.Toast;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,27 +31,44 @@ public class DroptoUploadActivity extends Activity {
 
     ImageView viewImage;
     Button b;
+   // Button c;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dropto_upload);
 
-        b=(Button)findViewById(R.id.btnSelectPhoto);
-        viewImage=(ImageView)findViewById(R.id.viewImage);
+        b = (Button) findViewById(R.id.btnUploadPhoto);
+        viewImage = (ImageView) findViewById(R.id.viewImage);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectImage();
             }
         });
+
+
+       b=(Button)findViewById(R.id.btnUploadVideo);
+        viewImage=(ImageView)findViewById(R.id.viewImage);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectVideo();
+            }
+        });
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.dropto_upload, menu);
         return true;
+
+
     }
 
     private void selectImage(){
@@ -81,10 +100,42 @@ public void onClick(DialogInterface dialog, int item){
         builder.show();
     }
 
+
+    private void selectVideo(){
+        final CharSequence[] options = {"Take Video", "Choose from Gallery","Cancel"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(DroptoUploadActivity.this);
+        builder.setTitle("Add Video!");
+        builder.setItems(options,new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int item){
+                if(options[item].equals("Take Video"))
+                {
+              //  private static final int VIDEO_CAPTURE = 101;
+
+                    Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                    File mediaFile = new File(android.os.Environment.getExternalStorageDirectory().getAbsolutePath(), "/myvideo.mp4");
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(mediaFile));
+                    startActivityForResult(intent, 3);
+                }
+                else if (options[item].equals("Choose from Gallery"))
+                {
+                    Intent intent = new
+                            Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 4);
+                }
+                else if(options[item].equals("Cancel")){
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
     @Override
-    protected  void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-        if(resultCode==RESULT_OK){
+    protected  void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 File f = new File(Environment.getExternalStorageDirectory().toString());
                 for (File temp : f.listFiles()) {
@@ -127,19 +178,19 @@ public void onClick(DialogInterface dialog, int item){
             } else if (requestCode == 2) {
 
                 Uri selectedImage = data.getData();
-                String[] filePath = { MediaStore.Images.Media.DATA };
-                Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
+                String[] filePath = {MediaStore.Images.Media.DATA};
+                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
                 c.moveToFirst();
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                Log.w("path of image from gallery......******************.........", picturePath+"");
+                Log.w("path of image from gallery......******************.........", picturePath + "");
                 viewImage.setImageBitmap(thumbnail);
-                }
-
+            }
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

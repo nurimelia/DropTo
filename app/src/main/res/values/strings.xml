@@ -12,5 +12,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_dropto_upload">DroptoUploadActivity</string>
     <string name="title_activity_dropto_create_folder">DroptoCreateFolder</string>
+    <string name="title_activity_dropto_upload_video">DroptoUploadVideo</string>
+
+    <string name="hello">Video</string>
 
 </resources>

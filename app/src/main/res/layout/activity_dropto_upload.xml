@@ -20,7 +20,7 @@
             android:layout_width="313dp"
             android:layout_height="wrap_content"
             android:text="Upload Video"
-            android:id="@+id/btnTakePhoto"
+            android:id="@+id/btnUploadVideo"
             android:textColor="@color/black"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
@@ -29,8 +29,8 @@
         android:layout_width="306dp"
         android:layout_height="wrap_content"
         android:text="Upload Photo"
-        android:id="@+id/btnSelectPhoto"
-        android:layout_below="@+id/btnTakePhoto"
+        android:id="@+id/btnUploadPhoto"
+        android:layout_below="@+id/btnUploadVideo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="63dp"
         android:textColor="@color/black" />

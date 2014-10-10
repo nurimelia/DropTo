@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View item) {
                 startActivity(new Intent(getApplicationContext(), DroptoCreateFolder.class));
-                overridePendingTransition(R.anim.slide_up, R.anim.slide_up);
+                //overridePendingTransition(R.anim.slide_up, R.anim.slide_up);
             }
         });
 
