@@ -6,4 +6,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
+    <color name="pressed_button">#33b4c833</color>
+
+
 </resources>

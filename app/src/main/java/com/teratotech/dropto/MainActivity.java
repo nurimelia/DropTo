@@ -66,8 +66,6 @@ public class MainActivity extends Activity {
         params = getWindow().getAttributes();
         params.width = width;
 
-
-
     }
 
 

@@ -16,4 +16,8 @@
 
     <string name="hello">Video</string>
 
+    <string name="label_discard">Discard</string>
+    <string name="label_save">Save</string>
+    <string name="label_title">Title</string>
+
 </resources>

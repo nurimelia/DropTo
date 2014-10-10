@@ -8,6 +8,92 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.teratotech.dropto.DroptoCreateFolder"
     android:background="#FFFFFF"
-    >
+  >
+    <LinearLayout
+        android:id="@+id/droptoedit_buttons"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:divider="?android:attr/dividerVertical"
+        android:dividerPadding="12dp"
+        android:showDividers="middle">
+
+        <FrameLayout
+            android:id="@+id/action_discard"
+            style="?android:actionButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/btn_borderless"
+            android:clickable="true">
+
+            <TextView
+                style="?android:actionBarTabTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/ic_action_cancel"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:paddingRight="20dp"
+                android:text="@string/label_discard"
+                android:textColor="#000000" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/action_save"
+            style="?android:actionButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/btn_borderless"
+            android:clickable="true">
+
+            <TextView
+                style="?android:actionBarTabTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/ic_action_accept"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:paddingRight="20dp"
+                android:text="@string/label_save"
+                android:textColor="#000000" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <View style="@style/Separator" android:layout_above="@id/droptoedit_buttons" />
+
+
+        <LinearLayout
+            android:id="@+id/droptoedit_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_title"
+                android:textColor="#000000"/>
+
+            <EditText
+                android:id="@+id/droptoedit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textCapWords"
+                android:textColor="#000000"/>
+
+
+        </LinearLayout>
 
 </RelativeLayout>
