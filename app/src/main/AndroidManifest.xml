@@ -4,16 +4,28 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <!--
+  IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
+  to match your app's package name + ".permission.C2D_MESSAGE".
+-->
+    <permission android:protectionLevel="signature"
+        android:name="com.teratotech.starter.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.teratotech.starter.permission.C2D_MESSAGE" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -31,6 +43,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.app.Activity"/>
         </activity>
         <activity
             android:name=".DroptoUploadActivity"
@@ -40,6 +56,11 @@
             android:name=".DroptoCreateFolder"
             android:label="@string/title_activity_dropto_create_folder" >
         </activity>
+        <activity
+            android:name=".DroptoListActivity"
+            android:label="@string/title_activity_dropto_list" >
+        </activity>
+
 
     </application>
 

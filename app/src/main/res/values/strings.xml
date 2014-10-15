@@ -2,22 +2,36 @@
 <resources>
 
     <string name="app_name">DropTo</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="dropto_label">File Name</string>
     <string name="action_upload">Upload</string>
     <string name="action_folder">Folder</string>
     <string name="upload_button">Upload</string>
     <string name="create_folder">Create Private Folder</string>
     <string name="show_action_sheet">Button</string>
-    <string name="title_activity_upload">UploadActivity</string>
+    <string name="title_activity_upload">Upload</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_dropto_upload">DroptoUploadActivity</string>
-    <string name="title_activity_dropto_create_folder">DroptoCreateFolder</string>
-    <string name="title_activity_dropto_upload_video">DroptoUploadVideo</string>
-
+    <string name="title_activity_dropto_upload">Dropto Upload</string>
+    <string name="title_activity_dropto_create_folder">Dropto Create Folder</string>
+    <string name="title_activity_dropto_upload_video">Dropto Upload Video</string>
     <string name="hello">Video</string>
-
-    <string name="label_discard">Discard</string>
+    <string name="label_discard">Cancle</string>
     <string name="label_save">Save</string>
     <string name="label_title">Title</string>
+    <string name="title_activity_dropto_list">Dropto List</string>
+
+    
+    <string name="menu_title">DropTo Files</string>
+    <string name="action_refresh">Refresh</string>
+<string name="save_button_text">Save</string>
+<string name="cancel_button_text">Cancel</string>
+
+    <string-array name="expiryDate_array">
+        <item>1 hour</item>
+        <item>12 hour</item>
+        <item>24 hour</item>
+        <item>48 hour</item>
+        <item>72 hour</item>
+
+    </string-array>
 
 </resources>

@@ -1,33 +1,25 @@
 package com.teratotech.dropto;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Dialog;
-import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.Parse;
+import com.parse.ParseObject;
+
 
 public class MainActivity extends Activity {
-
 
     public final static String EXTRA_MESSAGE = "com.teratotech.dropto.MESSAGE";
     private static final String tag = "MainActivity";
@@ -36,6 +28,11 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ParseObject.registerSubclass(DropTo.class);
+        Parse.initialize(this, "ZJMejxcTIMNyuWWviiP3eQkELIZ1mZ7dqQVIolpV", "ZGejA1DwbSu6cQRoooA4yCBcglC0AYoxEi2ouHNU");
+        //ParseInstallation.getCurrentInstallation().saveInBackground();
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actionsheet);
 
@@ -54,7 +51,6 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View item) {
                 startActivity(new Intent(getApplicationContext(), DroptoCreateFolder.class));
-                //overridePendingTransition(R.anim.slide_up, R.anim.slide_up);
             }
         });
 

@@ -2,38 +2,71 @@ package com.teratotech.dropto;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
-//import android.widget.Toast;
+import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
 
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 public class DroptoUploadActivity extends Activity {
 
+    private ImageButton photoButton;
+    private FrameLayout saveButton;
+    private FrameLayout cancelButton;
+    private TextView FileName;
+    private Spinner dropToRating;
+    private ParseImageView droptoPreview;
+
+    private String selectedGalleryFileName;
+
+    private long[] durations = {
+            1 * 60 * 60 * 1000,
+            12 * 60 * 60 * 1000,
+            24 * 60 * 60 * 1000,
+            48 * 60 * 60 * 1000,
+            72 * 60 * 60 * 1000
+    };
+
+    private DropTo dropTo;
     ImageView viewImage;
     Button b;
-   // Button c;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +74,7 @@ public class DroptoUploadActivity extends Activity {
         setContentView(R.layout.activity_dropto_upload);
 
         b = (Button) findViewById(R.id.btnUploadPhoto);
-        viewImage = (ImageView) findViewById(R.id.viewImage);
+        viewImage = (ImageView) findViewById(R.id.dropto_preview_image);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,26 +83,88 @@ public class DroptoUploadActivity extends Activity {
         });
 
 
-       b=(Button)findViewById(R.id.btnUploadVideo);
-        viewImage=(ImageView)findViewById(R.id.viewImage);
+        b = (Button) findViewById(R.id.btnUploadVideo);
+        viewImage = (ImageView) findViewById(R.id.dropto_preview_image);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectVideo();
             }
         });
+
+        FileName = ((EditText) findViewById(R.id.file_name));
+
+        // The droptoRating spinner lets people assign durations of files they've upload.
+        dropToRating = ((Spinner) findViewById(R.id.rating_spinner));
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter
+                .createFromResource(this, R.array.expiryDate_array,
+                        android.R.layout.simple_spinner_dropdown_item);
+        dropToRating.setAdapter(spinnerAdapter);
+
+        saveButton = ((FrameLayout) findViewById(R.id.action_save));
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dropTo = new DropTo();
+// When the user clicks "Save," upload the file to Parse / Add data to the dropto object:
+                dropTo.setTitle(FileName.getText().toString());
+
+                // Add the rating (the duraction )
+                int pos = dropToRating.getSelectedItemPosition();
+                long currentms = System.currentTimeMillis();
+                long newms = currentms + durations[pos];
+                Date expiry = new Date();
+                expiry.setTime(newms);
+                dropTo.setRating(expiry);
+
+                // If the user added a photo,
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                Bitmap b = BitmapFactory.decodeFile(selectedGalleryFileName);
+                b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                dropTo.setPhotoFile(new ParseFile(stream.toByteArray()));
+
+                // Save the Dropto and return
+                dropTo.saveInBackground(new SaveCallback() {
+
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    "File is saved",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    "Error saving: " + e.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+            }
+        });
+
+
+        cancelButton = ((FrameLayout) findViewById(R.id.action_discard));
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                setResult(Activity.RESULT_CANCELED);
+               finish();
+            }
+        });
+
+        // Until the user has taken a photo, hide the preview
+        droptoPreview = (ParseImageView) findViewById(R.id.dropto_preview_image);
+        droptoPreview.setVisibility(View.INVISIBLE);
+
+        return ;
     }
 
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.dropto_upload, menu);
-        return true;
-
-
-    }
 
     private void selectImage(){
         final CharSequence[] options = {"Take Photo", "Choose from Gallery","Cancel"};
@@ -111,7 +206,6 @@ public void onClick(DialogInterface dialog, int item){
             public void onClick(DialogInterface dialog, int item){
                 if(options[item].equals("Take Video"))
                 {
-              //  private static final int VIDEO_CAPTURE = 101;
 
                     Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                     File mediaFile = new File(android.os.Environment.getExternalStorageDirectory().getAbsolutePath(), "/myvideo.mp4");
@@ -185,15 +279,23 @@ public void onClick(DialogInterface dialog, int item){
                 String picturePath = c.getString(columnIndex);
                 c.close();
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+
+                selectedGalleryFileName = picturePath;
+
                 Log.w("path of image from gallery......******************.........", picturePath + "");
                 viewImage.setImageBitmap(thumbnail);
             }
         }
+
+
     }
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
+         //Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
