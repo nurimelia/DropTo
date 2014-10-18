@@ -54,13 +54,11 @@
         </activity>
         <activity
             android:name=".DroptoCreateFolder"
-            android:label="@string/title_activity_dropto_create_folder" >
-        </activity>
-        <activity
-            android:name=".DroptoListActivity"
-            android:label="@string/title_activity_dropto_list" >
+            android:label="@string/title_activity_main" >
         </activity>
 
+    <activity android:name=".SingleItemView" >
+    </activity>
 
     </application>
 

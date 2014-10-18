@@ -1,32 +1,25 @@
 package com.teratotech.dropto;
 
-import android.app.Application;
-
 import com.parse.Parse;
 import com.parse.ParseACL;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
+import android.app.Application;
 
-/**
- * Created by nurimelia on 10/13/14.
- */
-public class DropToSpottingApplication extends Application {
-
+public class ParseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
 
-        ParseObject.registerSubclass(DropTo.class);
-
-        Parse.initialize(this, "YOUR_APP_ID", "YOUR_CLIENT_KEY");
+        // Add your initialization code here
+       // Parse.initialize(this, ZJMejxcTIMNyuWWviiP3eQkELIZ1mZ7dqQVIolpV, ZGejA1DwbSu6cQRoooA4yCBcglC0AYoxEi2ouHNU);
 
         ParseUser.enableAutomaticUser();
-
         ParseACL defaultACL = new ParseACL();
 
+        // If you would like all objects to be private by default, remove this line.
         defaultACL.setPublicReadAccess(true);
 
         ParseACL.setDefaultACL(defaultACL, true);
-
     }
+
 }

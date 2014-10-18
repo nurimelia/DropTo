@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -42,6 +43,7 @@ import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -106,7 +108,7 @@ public class DroptoUploadActivity extends Activity {
             @Override
             public void onClick(View view) {
                 dropTo = new DropTo();
-// When the user clicks "Save," upload the file to Parse / Add data to the dropto object:
+            // When the user clicks "Save," upload the file to Parse / Add data to the dropto object:
                 dropTo.setTitle(FileName.getText().toString());
 
                 // Add the rating (the duraction )
@@ -118,14 +120,18 @@ public class DroptoUploadActivity extends Activity {
                 dropTo.setRating(expiry);
 
                 // If the user added a photo,
-
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 Bitmap b = BitmapFactory.decodeFile(selectedGalleryFileName);
-                b.compress(Bitmap.CompressFormat.PNG, 100, stream);
-
+                b.compress(Bitmap.CompressFormat.PNG, 80, stream);
                 dropTo.setPhotoFile(new ParseFile(stream.toByteArray()));
 
-                // Save the Dropto and return
+
+
+                //Bitmap thumbnail = (BitmapFactory.decodeFile( selectedGalleryFileName));
+                //thumbnail.compress(Bitmap.CompressFormat., 80, stream);
+
+
+                // Save the Dropto file and return
                 dropTo.saveInBackground(new SaveCallback() {
 
                     @Override
@@ -173,7 +179,7 @@ public class DroptoUploadActivity extends Activity {
         builder.setTitle("Add Photo!");
         builder.setItems(options,new DialogInterface.OnClickListener(){
             @Override
-public void onClick(DialogInterface dialog, int item){
+        public void onClick(DialogInterface dialog, int item){
                 if(options[item].equals("Take Photo"))
                 {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
