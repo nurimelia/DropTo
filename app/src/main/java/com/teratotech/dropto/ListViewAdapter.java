@@ -83,6 +83,10 @@ public class ListViewAdapter extends BaseAdapter {
                 intent.putExtra("fileName",
                         (dropToWorldList.get(position).getTitle()));
 
+                // Pass all data File Name
+                //intent.putExtra("folderName",
+                //        (dropToWorldList.get(position).getTitle()));
+
                 // Pass all data file
                 intent.putExtra("file",
                         (dropToWorldList.get(position).getPhotoFile()));

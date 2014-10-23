@@ -53,6 +53,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ParseObject.registerSubclass(DropTo.class);
+        ParseObject.registerSubclass(DropToFolder.class);
         Parse.initialize(this, "ZJMejxcTIMNyuWWviiP3eQkELIZ1mZ7dqQVIolpV", "ZGejA1DwbSu6cQRoooA4yCBcglC0AYoxEi2ouHNU");
         ParseAnalytics.trackAppOpened(getIntent());
 
@@ -116,7 +117,20 @@ public class MainActivity extends Activity {
                 // Locate the class table named "File" in Parse.com
                 ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(
                         "File");
-                // Locate the column named "fileName" in Parse.com and order list by ascending
+
+               // ParseQuery<ParseObject> fileQuery = new ParseQuery<ParseObject>(
+                   //     "File");
+
+               // ParseQuery<ParseObject> folderQuery = new ParseQuery<ParseObject>(
+                //        "Folder");
+
+               // ArrayList<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+              //  queries.add(fileQuery);
+              //  queries.add(folderQuery);
+
+               // ParseQuery<ParseObject> query = ParseQuery.or(queries);
+
+         //**       // Locate the column named "fileName" in Parse.com and order list by ascending
                 query.orderByAscending("fileName");
                 ob = query.find();
                 for (ParseObject file : ob) {
@@ -125,9 +139,12 @@ public class MainActivity extends Activity {
 
                     DropToWorld map = new DropToWorld();
                     map.setTitle((String) file.get("fileName"));
+                   // map.setTitle((String) file.get("folderName"));
                     map.setPhotoFile(image.getUrl());
                     dropToworldList.add(map);
                 }
+
+
             } catch (ParseException e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();

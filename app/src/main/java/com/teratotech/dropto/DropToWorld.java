@@ -8,6 +8,7 @@ public class DropToWorld {
     private String fileName;
     private String expiryDate;
     private String file;
+    private String folderName;
 
 
     public String getTitle() {
@@ -33,4 +34,13 @@ public class DropToWorld {
     public void setPhotoFile(String file) {
         this.file = file;
     }
+
+    public String getTitleF() {
+        return folderName;
+    }
+
+    public void setTitleF(String folderName) {
+        this.folderName = folderName;
+    }
+
 }

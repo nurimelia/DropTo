@@ -53,7 +53,6 @@ public class DroptoUploadActivity extends Activity {
 
     // GPSTracker class
     GPSTracker gps;
-
     private ImageButton photoButton;
     private FrameLayout saveButton;
     private FrameLayout cancelButton;
@@ -134,35 +133,35 @@ public class DroptoUploadActivity extends Activity {
                         gps = new GPSTracker(DroptoUploadActivity.this);
 
                         // check if GPS enabled
-                        if(gps.canGetLocation()){
                             double latitude = gps.getLatitude();
                             double longitude = gps.getLongitude();
                             ParseGeoPoint pgp = new ParseGeoPoint(latitude, longitude);
                             dropTo.setLocation(pgp);
-                             // \n is for new line
-                            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-                        }else {
-                            // can't get location
-                            // GPS or Network is not enabled
-                            // Ask user to enable GPS/network in settings
-                            gps.showSettingsAlert();
-                        }
 
                 // Save the Dropto file and return
                 dropTo.saveInBackground(new SaveCallback() {
 
                     @Override
                     public void done(ParseException e) {
-                        if (e == null) {
+                        if (e == null )
+                            // check if GPS enabled
+                            if(gps.canGetLocation()){
+                            double latitude = gps.getLatitude();
+                            double longitude = gps.getLongitude();
                             Toast.makeText(
                                     getApplicationContext(),
-                                    "File is saved",
+                                    "File is saved. Your Location is - \nLat: " + latitude + "\nLong: " + longitude,
                                     Toast.LENGTH_SHORT).show();
+                                //setResult(Activity.RESULT_CANCELED);
+                                finish();
                         } else {
                             Toast.makeText(
                                     getApplicationContext(),
                                     "Error saving: " + e.getMessage(),
                                     Toast.LENGTH_SHORT).show();
+                                // can't get location / GPS or Network is not enabled
+                                // Ask user to enable GPS/network in settings
+                               gps.showSettingsAlert();
 
                         }
                     }
@@ -199,7 +198,8 @@ public class DroptoUploadActivity extends Activity {
         public void onClick(DialogInterface dialog, int item){
                 if(options[item].equals("Take Photo"))
                 {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Intent intent = new
+                            Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
                     intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(f));
                     startActivityForResult(intent, 1);

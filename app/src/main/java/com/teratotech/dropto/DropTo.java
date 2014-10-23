@@ -8,8 +8,6 @@ import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
-//import com.teratotech.ParseUser;
-
 import java.util.Date;
 
 
@@ -47,7 +45,6 @@ public class DropTo extends ParseObject {
     public void setLocation(ParseGeoPoint location){
         put("location", location);
     }
-
 
 
 }

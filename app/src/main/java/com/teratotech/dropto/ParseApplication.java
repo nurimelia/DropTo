@@ -10,8 +10,6 @@ public class ParseApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // Add your initialization code here
-       // Parse.initialize(this, ZJMejxcTIMNyuWWviiP3eQkELIZ1mZ7dqQVIolpV, ZGejA1DwbSu6cQRoooA4yCBcglC0AYoxEi2ouHNU);
 
         ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();
