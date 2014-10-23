@@ -5,6 +5,7 @@ package com.teratotech.dropto;
  */
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 //import com.teratotech.ParseUser;
@@ -38,6 +39,13 @@ public class DropTo extends ParseObject {
 
     public void setPhotoFile(ParseFile file) {
         put("file", file);
+    }
+
+    public ParseGeoPoint getLocation(){
+        return getParseGeoPoint("location");
+    }
+    public void setLocation(ParseGeoPoint location){
+        put("location", location);
     }
 
 

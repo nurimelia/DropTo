@@ -36,6 +36,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 public class MainActivity extends Activity {
+
+
     // Declare Variables
     ListView listview;
     List<ParseObject> ob;
@@ -59,12 +61,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.actionsheet);
 
 
-
         TextView tvNewButton = (TextView) findViewById(R.id.tvUpload);
-        tvNewButton.setOnClickListener(new OnClickListener(){
+        tvNewButton.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View item){
-                Toast.makeText(getApplicationContext(),"Upload file", Toast.LENGTH_LONG).show();
+            public void onClick(View item) {
+                Toast.makeText(getApplicationContext(), "Upload file", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(getApplicationContext(), DroptoUploadActivity.class));
             }
         });
@@ -81,7 +82,7 @@ public class MainActivity extends Activity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         width = metrics.widthPixels;
-        Log.i(tag, "Height : " +metrics.heightPixels+ " Width : " +width);
+        Log.i(tag, "Height : " + metrics.heightPixels + " Width : " + width);
 
         params = getWindow().getAttributes();
         params.width = width;
@@ -115,8 +116,7 @@ public class MainActivity extends Activity {
                 // Locate the class table named "File" in Parse.com
                 ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(
                         "File");
-                // Locate the column named "fileName" in Parse.com and order list
-                // by ascending
+                // Locate the column named "fileName" in Parse.com and order list by ascending
                 query.orderByAscending("fileName");
                 ob = query.find();
                 for (ParseObject file : ob) {
@@ -168,7 +168,7 @@ public class MainActivity extends Activity {
         if (id == R.id.action_upload) {
             RelativeLayout actionsheet = (RelativeLayout) findViewById(R.id.rlActionSheet);
             int v = actionsheet.getVisibility();
-Log.d("mainactivity", "actionsheet v: " + v);
+            Log.d("mainactivity", "actionsheet v: " + v);
             if (v == View.GONE || v == View.INVISIBLE) {
                 actionsheet.setVisibility(View.VISIBLE);
             } else {
@@ -184,11 +184,13 @@ Log.d("mainactivity", "actionsheet v: " + v);
 
 
     //Called when the user clicks the Send button
-    public void sendToUpload (View view){
+    public void sendToUpload(View view) {
         Button button = (Button) view;
         startActivity(new Intent(getApplicationContext(), DroptoUploadActivity.class));
 
     }
+
+
 
 }
 

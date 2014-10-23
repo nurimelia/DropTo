@@ -40,8 +40,10 @@ import java.io.OutputStream;
 import java.util.Date;
 
 import com.parse.GetDataCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -49,12 +51,15 @@ import com.parse.SaveCallback;
 
 public class DroptoUploadActivity extends Activity {
 
+    // GPSTracker class
+    GPSTracker gps;
+
     private ImageButton photoButton;
     private FrameLayout saveButton;
     private FrameLayout cancelButton;
     private TextView FileName;
     private Spinner dropToRating;
-    private ParseImageView droptoPreview;
+    //private ParseImageView droptoPreview;
 
     private String selectedGalleryFileName;
 
@@ -69,6 +74,7 @@ public class DroptoUploadActivity extends Activity {
     private DropTo dropTo;
     ImageView viewImage;
     Button b;
+    Button c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +91,8 @@ public class DroptoUploadActivity extends Activity {
         });
 
 
-        b = (Button) findViewById(R.id.btnUploadVideo);
-        viewImage = (ImageView) findViewById(R.id.dropto_preview_image);
-        b.setOnClickListener(new View.OnClickListener() {
+        c = (Button) findViewById(R.id.btnUploadVideo);
+        c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectVideo();
@@ -125,11 +130,23 @@ public class DroptoUploadActivity extends Activity {
                 b.compress(Bitmap.CompressFormat.PNG, 80, stream);
                 dropTo.setPhotoFile(new ParseFile(stream.toByteArray()));
 
+                        // create class object
+                        gps = new GPSTracker(DroptoUploadActivity.this);
 
-
-                //Bitmap thumbnail = (BitmapFactory.decodeFile( selectedGalleryFileName));
-                //thumbnail.compress(Bitmap.CompressFormat., 80, stream);
-
+                        // check if GPS enabled
+                        if(gps.canGetLocation()){
+                            double latitude = gps.getLatitude();
+                            double longitude = gps.getLongitude();
+                            ParseGeoPoint pgp = new ParseGeoPoint(latitude, longitude);
+                            dropTo.setLocation(pgp);
+                             // \n is for new line
+                            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                        }else {
+                            // can't get location
+                            // GPS or Network is not enabled
+                            // Ask user to enable GPS/network in settings
+                            gps.showSettingsAlert();
+                        }
 
                 // Save the Dropto file and return
                 dropTo.saveInBackground(new SaveCallback() {
@@ -165,8 +182,8 @@ public class DroptoUploadActivity extends Activity {
         });
 
         // Until the user has taken a photo, hide the preview
-        droptoPreview = (ParseImageView) findViewById(R.id.dropto_preview_image);
-        droptoPreview.setVisibility(View.INVISIBLE);
+        //droptoPreview = (ParseImageView) findViewById(R.id.dropto_preview_image);
+        //droptoPreview.setVisibility(View.INVISIBLE);
 
         return ;
     }
@@ -295,8 +312,6 @@ public class DroptoUploadActivity extends Activity {
 
 
     }
-
-
 
 
     @Override

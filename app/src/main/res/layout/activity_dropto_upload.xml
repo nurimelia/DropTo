@@ -76,13 +76,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="3dp">
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="1dp"
             android:text="@string/dropto_label"
             android:textSize="15sp"
             android:textColor="@color/black"/>
@@ -116,7 +117,7 @@
         <com.parse.ParseImageView
             android:id="@+id/dropto_preview_image"
             android:layout_width="wrap_content"
-            android:layout_height="160dp"
+            android:layout_height="150dp"
             android:src="@drawable/ic_action_camera"
             android:layout_below="@+id/btnSelectPhoto"
             android:layout_alignParentLeft="true"
@@ -129,8 +130,7 @@
             android:layout_height="wrap_content"
             android:entries="@array/expiryDate_array"
             android:ems="10"
-            android:textColor="@color/black"
-             />
+            android:textColor="#ff000000" />
 
         </LinearLayout>
 
