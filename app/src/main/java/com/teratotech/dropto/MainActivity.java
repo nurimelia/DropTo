@@ -28,6 +28,7 @@ import com.parse.ParseQuery;
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 import com.parse.ParseException;
@@ -36,7 +37,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 public class MainActivity extends Activity {
-
 
     // Declare Variables
     ListView listview;
@@ -72,7 +72,6 @@ public class MainActivity extends Activity {
         });
 
         TextView tvCreateFolder = (TextView) findViewById(R.id.tvCreateFolder);
-
         tvCreateFolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View item) {
@@ -88,10 +87,11 @@ public class MainActivity extends Activity {
         params = getWindow().getAttributes();
         params.width = width;
 
-
         // Execute RemoteDataTask AsyncTask
         new RemoteDataTask().execute();
     }
+
+
 
     // RemoteDataTask AsyncTask
     private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
@@ -118,7 +118,7 @@ public class MainActivity extends Activity {
                 ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(
                         "File");
 
-               // ParseQuery<ParseObject> fileQuery = new ParseQuery<ParseObject>(
+               /* ParseQuery<ParseObject> fileQuery = new ParseQuery<ParseObject>(
                    //     "File");
 
                // ParseQuery<ParseObject> folderQuery = new ParseQuery<ParseObject>(
@@ -128,7 +128,7 @@ public class MainActivity extends Activity {
               //  queries.add(fileQuery);
               //  queries.add(folderQuery);
 
-               // ParseQuery<ParseObject> query = ParseQuery.or(queries);
+               // ParseQuery<ParseObject> query = ParseQuery.or(queries);*/
 
          //**       // Locate the column named "fileName" in Parse.com and order list by ascending
                 query.orderByAscending("fileName");

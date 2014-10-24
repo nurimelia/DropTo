@@ -94,6 +94,25 @@
                 android:textColor="#000000"/>
 
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="4-digit code"
+                android:textColor="#000000"
+                android:layout_marginTop="90dp"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/generatenumber"
+                android:textSize="50dp"
+                android:layout_marginTop="20dp"
+                android:textColor="#000000"
+                />
+
+
+
         </LinearLayout>
 
 </RelativeLayout>

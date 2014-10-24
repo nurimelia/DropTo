@@ -19,5 +19,12 @@ public class DropToFolder extends ParseObject {
     public void setTitleF(String foldername){
         put("folderName", foldername);
     }
+
+    public String getCode(){
+        return getString("code");
+    }
+    public void setCode(String code){
+        put("code", code);
+    }
 }
 
