@@ -90,6 +90,8 @@ public class ListViewAdapter extends BaseAdapter {
                 // Pass all data file
                 intent.putExtra("file",
                         (dropToWorldList.get(position).getPhotoFile()));
+
+
                 // Start SingleItemView Class
                 context.startActivity(intent);
             }

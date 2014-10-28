@@ -2,6 +2,7 @@ package com.teratotech.dropto;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,6 +59,7 @@ public class DroptoUploadActivity extends Activity {
     private FrameLayout saveButton;
     private FrameLayout cancelButton;
     private TextView FileName;
+    private TextView DeviceId;
     private Spinner dropToRating;
     //private ParseImageView droptoPreview;
 
@@ -74,6 +77,8 @@ public class DroptoUploadActivity extends Activity {
     ImageView viewImage;
     Button b;
     Button c;
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,10 +112,15 @@ public class DroptoUploadActivity extends Activity {
                         android.R.layout.simple_spinner_dropdown_item);
         dropToRating.setAdapter(spinnerAdapter);
 
+
+
         saveButton = ((FrameLayout) findViewById(R.id.action_save));
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                progressDialog = ProgressDialog.show(DroptoUploadActivity.this, "",
+                        "Uploading File...", true);
                 dropTo = new DropTo();
             // When the user clicks "Save," upload the file to Parse / Add data to the dropto object:
                 dropTo.setTitle(FileName.getText().toString());
@@ -129,7 +139,14 @@ public class DroptoUploadActivity extends Activity {
                 b.compress(Bitmap.CompressFormat.PNG, 80, stream);
                 dropTo.setPhotoFile(new ParseFile(stream.toByteArray()));
 
-                        // create class object
+                // If the user added a video,
+
+                //ByteArrayOutputStream baos = new ByteArrayOutputStream();
+              //  FileInputStream fis = new FileInputStream(new FileInputStream());
+               // byte[] videoBytes = baos.toByteArray(); //this is the video in bytes.
+
+
+                // create class object
                         gps = new GPSTracker(DroptoUploadActivity.this);
 
                         // check if GPS enabled
@@ -137,6 +154,12 @@ public class DroptoUploadActivity extends Activity {
                             double longitude = gps.getLongitude();
                             ParseGeoPoint pgp = new ParseGeoPoint(latitude, longitude);
                             dropTo.setLocation(pgp);
+
+                //getting unique id for device
+                String id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                   dropTo.setDeviceId(id);
+
+
 
                 // Save the Dropto file and return
                 dropTo.saveInBackground(new SaveCallback() {
@@ -152,6 +175,9 @@ public class DroptoUploadActivity extends Activity {
                                     getApplicationContext(),
                                     "File is saved. Your Location is - \nLat: " + latitude + "\nLong: " + longitude,
                                     Toast.LENGTH_SHORT).show();
+
+                                // Close progress dialog
+                                progressDialog.dismiss();
                                 //setResult(Activity.RESULT_CANCELED);
                                 finish();
                         } else {
@@ -198,8 +224,7 @@ public class DroptoUploadActivity extends Activity {
         public void onClick(DialogInterface dialog, int item){
                 if(options[item].equals("Take Photo"))
                 {
-                    Intent intent = new
-                            Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
                     intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(f));
                     startActivityForResult(intent, 1);

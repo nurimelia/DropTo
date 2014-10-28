@@ -1,7 +1,9 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.teratotech.dropto.fragment.UploadActivity" >
+<?xml version="1.0" encoding="utf-8"?>
 
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white">
 
     <!-- Find folder / will display always -->
     <item android:id="@+id/action_folder"
@@ -10,12 +12,12 @@
         android:showAsAction="ifRoom" />
 
     <!-- Upload / will display always -->
-    <item android:id="@+id/action_upload"
+    <item android:id="@+id/action_download"
         android:icon="@drawable/ic_action_upload"
-        android:title="@string/action_upload"
+        android:title="@string/action_download"
         android:onClick="onOptionsItemSelected"
-        android:showAsAction="ifRoom"
+        android:showAsAction="ifRoom"/>
 
 
-        />
+
 </menu>

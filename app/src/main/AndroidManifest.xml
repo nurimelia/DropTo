@@ -10,8 +10,8 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -20,16 +20,16 @@
     <!--
   IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
   to match your app's package name + ".permission.C2D_MESSAGE".
--->
-    <permission android:protectionLevel="signature"
-        android:name="com.teratotech.starter.permission.C2D_MESSAGE" />
+    -->
+    <permission
+        android:name="com.teratotech.starter.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="com.teratotech.starter.permission.C2D_MESSAGE" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -40,8 +40,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
 
-
-        <!--  Add Google Map Library -->
+        <!-- Add Google Map Library -->
         <uses-library android:name="com.google.android.maps" />
 
         <activity
@@ -55,7 +54,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="android.app.Activity"/>
+                android:value="android.app.Activity" />
         </activity>
         <activity
             android:name=".DroptoUploadActivity"
@@ -63,12 +62,16 @@
         </activity>
         <activity
             android:name=".DroptoCreateFolder"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_createFolder" >
         </activity>
-
-    <activity android:name=".SingleItemView" >
-    </activity>
-
+        <activity
+            android:name=".SingleItemView"
+            android:label="@string/title_activity_dropto_download" >
+        </activity>
+        <activity
+            android:name=".RQprivateFolder"
+            android:label="@string/title_activity_rqprivate_folder" >
+        </activity>
     </application>
 
 </manifest>

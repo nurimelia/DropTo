@@ -30,11 +30,7 @@ import com.parse.ParseAnalytics;
 import java.util.ArrayList;
 import java.util.Random;
 
-
-import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 public class MainActivity extends Activity {
 
@@ -195,17 +191,28 @@ public class MainActivity extends Activity {
             return true;
         }
 
+       if (id == R.id.action_folder){
+
+           RelativeLayout privatefolder = (RelativeLayout) findViewById(R.id.action_folder);
+           privatefolder.setOnClickListener(new OnClickListener() {
+               @Override
+               public void onClick(View item) {
+                   Toast.makeText(getApplicationContext(), "Private Folder", Toast.LENGTH_LONG).show();
+                   startActivity(new Intent(getApplicationContext(), RQprivateFolder.class));
+               }
+           });
+       }
+
         return super.onOptionsItemSelected(item);
 
+
+
+
+
     }
 
 
-    //Called when the user clicks the Send button
-    public void sendToUpload(View view) {
-        Button button = (Button) view;
-        startActivity(new Intent(getApplicationContext(), DroptoUploadActivity.class));
 
-    }
 
 
 

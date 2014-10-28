@@ -1,12 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.teratotech.dropto.DroptoCreateFolder"
     android:background="#FFFFFF">
 
     <LinearLayout
@@ -77,7 +75,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,7 +90,6 @@
                 android:inputType="textCapWords"
                 android:textColor="#000000"/>
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,8 +104,7 @@
                 android:id="@+id/generatenumber"
                 android:textSize="50dp"
                 android:layout_marginTop="20dp"
-                android:textColor="#000000"
-                />
+                android:textColor="#000000"/>
 
 
 

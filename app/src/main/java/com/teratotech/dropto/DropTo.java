@@ -20,9 +20,16 @@ public class DropTo extends ParseObject {
     public String getTitle(){
         return getString("fileName");
     }
-    public void setTitle(String filename){
+    public void setTitle(String filename) {
         put("fileName", filename);
     }
+        public String getDeviceid(){
+            return getString("deviceId");
+        }
+        public void setDeviceId(String deviceId){
+            put("deviceId", deviceId);
+        }
+
 
     public Date getRating(){
         return getDate("expiryDate");
