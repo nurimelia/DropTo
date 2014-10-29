@@ -33,7 +33,7 @@ public class DroptoCreateFolder extends Activity {
     private TextView Code;
 
 
-    public  static int[] randomNumbers=new int[4];
+    public  static String[] randomNumbers=new String[4];
     public static byte[] fourDigits=new byte[4];
     private  static boolean status=true;
 
@@ -47,7 +47,7 @@ public class DroptoCreateFolder extends Activity {
         genRandomNumbers();
         while (status) ;
 
-        for (int i : randomNumbers) {
+        for (String i : randomNumbers) {
             System.out.println(i);
         }
         System.out.println("four digit random number : " + new String(fourDigits));
@@ -66,8 +66,8 @@ public class DroptoCreateFolder extends Activity {
                 while(true) {
 
                     for(int i=0; i<4 ;i++) {
-                        randomNumbers[i]=random.nextInt();
-                        fourDigits[i]= (byte) random.nextInt();
+                        randomNumbers[i]= String.valueOf(random.nextDouble());
+                        fourDigits[i]= (byte) random.nextDouble();
                     }
                     status=false;
                     try {

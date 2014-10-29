@@ -39,8 +39,8 @@ public class MainActivity extends Activity {
     List<ParseObject> ob;
     ProgressDialog mProgressDialog;
     ListViewAdapter adapter;
-    private List<DropToWorld> dropToworldList = null;
-
+    private List<DropTo> dropToworldList = null;
+//
     public final static String EXTRA_MESSAGE = "com.teratotech.dropto.MESSAGE";
     private static final String tag = "MainActivity";
     private int width;
@@ -107,8 +107,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected Void doInBackground(Void... params) {
-// Create the array
-            dropToworldList = new ArrayList<DropToWorld>();
+            dropToworldList = new ArrayList<DropTo>(); //
             try {
                 // Locate the class table named "File" in Parse.com
                 ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(
@@ -133,10 +132,11 @@ public class MainActivity extends Activity {
                     // Locate images in flag column
                     ParseFile image = (ParseFile) file.get("file");
 
-                    DropToWorld map = new DropToWorld();
+                    DropTo map = new DropTo(); //
                     map.setTitle((String) file.get("fileName"));
+                    map.setDate((Date) file.get("expiryDate"));
                    // map.setTitle((String) file.get("folderName"));
-                    map.setPhotoFile(image.getUrl());
+                    map.setPhotoFileW(image.getUrl());
                     dropToworldList.add(map);
                 }
 
@@ -191,7 +191,7 @@ public class MainActivity extends Activity {
             return true;
         }
 
-       if (id == R.id.action_folder){
+     /*  if (id == R.id.action_folder){
 
            RelativeLayout privatefolder = (RelativeLayout) findViewById(R.id.action_folder);
            privatefolder.setOnClickListener(new OnClickListener() {
@@ -201,7 +201,7 @@ public class MainActivity extends Activity {
                    startActivity(new Intent(getApplicationContext(), RQprivateFolder.class));
                }
            });
-       }
+       }*/
 
         return super.onOptionsItemSelected(item);
 

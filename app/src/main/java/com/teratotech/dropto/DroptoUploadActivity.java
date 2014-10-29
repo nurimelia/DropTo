@@ -53,15 +53,13 @@ import com.parse.SaveCallback;
 
 public class DroptoUploadActivity extends Activity {
 
-    // GPSTracker class
-    GPSTracker gps;
-    private ImageButton photoButton;
+
+    GPSTracker gps; // GPSTracker class
     private FrameLayout saveButton;
     private FrameLayout cancelButton;
     private TextView FileName;
     private TextView DeviceId;
-    private Spinner dropToRating;
-    //private ParseImageView droptoPreview;
+    private Spinner dropToDate;
 
     private String selectedGalleryFileName;
 
@@ -94,7 +92,6 @@ public class DroptoUploadActivity extends Activity {
             }
         });
 
-
         c = (Button) findViewById(R.id.btnUploadVideo);
         c.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,41 +103,39 @@ public class DroptoUploadActivity extends Activity {
         FileName = ((EditText) findViewById(R.id.file_name));
 
         // The droptoRating spinner lets people assign durations of files they've upload.
-        dropToRating = ((Spinner) findViewById(R.id.rating_spinner));
+        dropToDate = ((Spinner) findViewById(R.id.rating_spinner));
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter
                 .createFromResource(this, R.array.expiryDate_array,
                         android.R.layout.simple_spinner_dropdown_item);
-        dropToRating.setAdapter(spinnerAdapter);
-
-
+        dropToDate.setAdapter(spinnerAdapter);
 
         saveButton = ((FrameLayout) findViewById(R.id.action_save));
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                progressDialog = ProgressDialog.show(DroptoUploadActivity.this, "",
-                        "Uploading File...", true);
+                progressDialog = ProgressDialog.show(DroptoUploadActivity.this, "", "Uploading File...", true);
                 dropTo = new DropTo();
             // When the user clicks "Save," upload the file to Parse / Add data to the dropto object:
                 dropTo.setTitle(FileName.getText().toString());
+                dropTo.setFileType("jpg");
 
                 // Add the rating (the duraction )
-                int pos = dropToRating.getSelectedItemPosition();
+                int pos = dropToDate.getSelectedItemPosition();
                 long currentms = System.currentTimeMillis();
                 long newms = currentms + durations[pos];
                 Date expiry = new Date();
                 expiry.setTime(newms);
-                dropTo.setRating(expiry);
+                dropTo.setDate(expiry);
 
                 // If the user added a photo,
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 Bitmap b = BitmapFactory.decodeFile(selectedGalleryFileName);
-                b.compress(Bitmap.CompressFormat.PNG, 80, stream);
+                b.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 dropTo.setPhotoFile(new ParseFile(stream.toByteArray()));
 
-                // If the user added a video,
 
+                // If the user added a video,
                 //ByteArrayOutputStream baos = new ByteArrayOutputStream();
               //  FileInputStream fis = new FileInputStream(new FileInputStream());
                // byte[] videoBytes = baos.toByteArray(); //this is the video in bytes.
@@ -205,10 +200,6 @@ public class DroptoUploadActivity extends Activity {
                finish();
             }
         });
-
-        // Until the user has taken a photo, hide the preview
-        //droptoPreview = (ParseImageView) findViewById(R.id.dropto_preview_image);
-        //droptoPreview.setVisibility(View.INVISIBLE);
 
         return ;
     }

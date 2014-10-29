@@ -57,15 +57,19 @@
             android:layout_height="10dp"
             android:layout_below="@+id/tvCreateFolder"/>
 
-
         </RelativeLayout>
 
         <ListView
             android:id="@+id/listview"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/list_divider"
+            android:dividerHeight="1dp"
+            android:listSelector="@drawable/list_row_selector"
             android:textColor="#000000"
             android:layout_above="@+id/rlActionSheet"/>
+
+
 
 
     </RelativeLayout>

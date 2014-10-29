@@ -27,7 +27,7 @@ public class MemoryCache {
 
     public MemoryCache() {
         // Use 25% of available heap size
-        setLimit(Runtime.getRuntime().maxMemory() / 4);
+        setLimit(Runtime.getRuntime().maxMemory() / 8);
     }
 
     public void setLimit(long new_limit) {

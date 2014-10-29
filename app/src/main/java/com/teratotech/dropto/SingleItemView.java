@@ -28,6 +28,7 @@ public class SingleItemView extends Activity {
     // Declare Variables
 
     String fileName;
+    String expiryDate;
     String file;
     ImageLoader imageLoader = new ImageLoader(this);
 
@@ -47,17 +48,22 @@ public class SingleItemView extends Activity {
         // Get the result of fileNAme
         fileName = i.getStringExtra("fileName");
 
+        // Get the result of expiryDate
+        expiryDate = i.getStringExtra("expiryDate");
+
         // Get the result of file
         file = i.getStringExtra("file");
 
         // Locate the TextViews in singleitemview.xml
         TextView txtfileName = (TextView) findViewById(R.id.txtfileName);
+        TextView txtfileExpiry = (TextView) findViewById(R.id.txtfileExpiry);
 
         // Locate the ImageView in singleitemview.xml
         ImageView imgfile = (ImageView) findViewById(R.id.file);
 
         // Set results to the TextViews
         txtfileName.setText(fileName);
+        txtfileExpiry.setText(expiryDate);
         // Capture position and set results to the ImageView
         // Passes file images URL into ImageLoader.class
         imageLoader.DisplayImage(file, imgfile);
