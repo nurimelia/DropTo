@@ -1,5 +1,6 @@
 package com.teratotech.dropto;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ListViewAdapter extends BaseAdapter {
@@ -20,14 +23,20 @@ public class ListViewAdapter extends BaseAdapter {
     LayoutInflater inflater;
     ImageLoader imageLoader;
     private List<DropTo> dropToWorldList = null;//
-    private ArrayList<DropTo> arraylist;//
 
-    public ListViewAdapter(Context context, List<DropTo> dropToWorldList) { //
+    public ListViewAdapter(Context context, List<DropTo> h) { //
         this.context = context;
-        this.dropToWorldList = dropToWorldList;
+        this.dropToWorldList = new ArrayList<DropTo>();
         inflater = LayoutInflater.from(context);
-        this.arraylist = new ArrayList<DropTo>();
-        this.arraylist.addAll(dropToWorldList);
+
+        for (DropTo d : h) {
+            Date n = new Date();
+
+            if (d.getDate().compareTo(n) > 0) {
+                dropToWorldList.add(d);
+            }
+        }
+
         imageLoader = new ImageLoader(context);
     }
 
@@ -35,7 +44,11 @@ public class ListViewAdapter extends BaseAdapter {
         TextView fileName;
         TextView expiryDate;
         ImageView fileW;
+        private int visibility;
 
+        public void setVisibility(int visibility) {
+            this.visibility = visibility;
+        }
     }
 
     @Override
@@ -53,29 +66,35 @@ public class ListViewAdapter extends BaseAdapter {
         return position;
     }
 
+
     public View getView(final int position, View view, ViewGroup parent) {
         final ViewHolder holder;
-        if (view == null) {
+
+        if (view == null){
+
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.listview_item, null);
             // Locate the TextViews in listview_item.xml
+            holder.fileName = (TextView) view.findViewById(R.id.separator);
             holder.fileName = (TextView) view.findViewById(R.id.file_name);
             holder.expiryDate = (TextView) view.findViewById(R.id.expiryDate);
 
             // Locate the ImageView in listview_item.xml
             holder.fileW = (ImageView) view.findViewById(R.id.file);
             view.setTag(holder);
-        } else {
+        } else
+        {
             holder = (ViewHolder) view.getTag();
         }
-        // Set the results into TextViews
+
+        Date d = dropToWorldList.get(position).getDate();
+
         holder.fileName.setText(dropToWorldList.get(position).getTitle());
 
-       Date d = dropToWorldList.get(position).getDate();
-       holder.expiryDate.setText(d.toString());
-
         // Set the results into ImageView
-      imageLoader.DisplayImage(dropToWorldList.get(position).getPhotoFileW(),holder.fileW);
+        imageLoader.DisplayImage(dropToWorldList.get(position).getPhotoFileW(), holder.fileW);
+        holder.expiryDate.setText(d.toString());
+
         // Listen for ListView Item Click
         view.setOnClickListener(new OnClickListener() {
 
@@ -86,8 +105,6 @@ public class ListViewAdapter extends BaseAdapter {
                 // Pass all data File Name
                 intent.putExtra("fileName",(dropToWorldList.get(position).getTitle()));
 
-                // Pass all data Expiry Date
-                intent.putExtra("expiryDate",(dropToWorldList.get(position).getDate()));
 
                 // Pass all data Folder Name
                 //intent.putExtra("folderName",(dropToWorldList.get(position).getTitle()));
@@ -102,5 +119,6 @@ public class ListViewAdapter extends BaseAdapter {
         });
         return view;
     }
+
 
 }

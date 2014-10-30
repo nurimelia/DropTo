@@ -15,6 +15,7 @@ import java.util.Date;
 
 @ParseClassName("File")
 public class DropTo extends ParseObject {
+
 private String folderName;
     private String fileW;
     public DropTo() {

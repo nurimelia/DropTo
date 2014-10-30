@@ -4,7 +4,12 @@
     android:layout_height="wrap_content"
     android:background="@drawable/list_row_selector"
     android:padding="8dp" >
-
+    <TextView
+        android:id="@+id/separator"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
     <!-- Thumbnail Image -->
     <ImageView
         android:id="@+id/file"
