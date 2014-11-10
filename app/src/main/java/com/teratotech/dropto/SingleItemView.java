@@ -123,8 +123,7 @@ public class SingleItemView extends Activity {
                                     progressDialog.dismiss();
 
                                 } else {
-                                    Log.d("test",
-                                            "There was a problem downloading the data.");
+                                    Log.d("test","There was a problem downloading the data.");
                                 }
                             }
                         });

@@ -117,7 +117,7 @@ public class DroptoUploadActivity extends Activity {
                 progressDialog = ProgressDialog.show(DroptoUploadActivity.this, "", "Uploading File...", true);
                 dropTo = new DropTo();
             // When the user clicks "Save," upload the file to Parse / Add data to the dropto object:
-                dropTo.setTitle(FileName.getText().toString());
+                dropTo.setfileName(FileName.getText().toString());
                 dropTo.setFileType("jpg");
 
                 // Add the rating (the duraction )
@@ -325,10 +325,7 @@ public class DroptoUploadActivity extends Activity {
                 viewImage.setImageBitmap(thumbnail);
             }
         }
-
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

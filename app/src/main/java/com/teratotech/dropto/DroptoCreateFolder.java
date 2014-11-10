@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,9 +93,15 @@ public class DroptoCreateFolder extends Activity {
             public void onClick(View view) {
                 dropToF = new DropToFolder();
                 // When the user clicks "Save," upload the foldername to Parse / Add data to the dropto object:
-                dropToF.setTitleF(FolderName.getText().toString());
+                dropToF.setname(FolderName.getText().toString());
 
                 dropToF.setCode(textGenerateNumber.getText().toString());
+
+
+                //getting unique id for device
+                String id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                dropToF.setDeviceId(id);
+
 
                 // Save the DroptoFolder file and return
                 dropToF.saveInBackground(new SaveCallback() {

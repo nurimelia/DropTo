@@ -9,6 +9,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 import java.util.Date;
 
@@ -16,15 +17,48 @@ import java.util.Date;
 @ParseClassName("File")
 public class DropTo extends ParseObject {
 
-private String folderName;
+
+    private String folderName;
     private String fileW;
+    public String imageUrl;
+    public String fileName;
+    public String fileType;
+    public String deviceId;
+    public Date date;
+    public ParseFile file;
+    public ParseGeoPoint location;
+
     public DropTo() {
 
     }
-    public String getTitle(){
+
+    public void imageUrl(String url) {
+        this.imageUrl = url;
+    }
+
+    public void date(Date expiryDate) {
+        this.date = expiryDate;
+    }
+
+    public void fileName(String s) {
+        this.fileName = s;
+    }
+    public void fileType(String jpg) {
+    }
+
+    public void file(ParseFile parseFile) {
+    }
+
+    public void location(ParseGeoPoint pgp) {
+    }
+
+    public void deviceId(String id) {
+    }
+
+    public String getfileName(){
         return getString("fileName");
     }
-    public void setTitle(String filename) {
+    public void setfileName(String filename) {
         put("fileName", filename);
     }
 
@@ -66,11 +100,11 @@ private String folderName;
     }
 
 
-    public String getPhotoFileW() {
+    public String getImage() {
         return fileW;
     }
 
-    public void setPhotoFileW(String file) {
+    public void setImage(String file) {
         this.fileW = file;
     }
 

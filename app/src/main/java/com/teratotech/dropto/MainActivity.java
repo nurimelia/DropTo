@@ -3,8 +3,10 @@ package com.teratotech.dropto;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -17,8 +19,9 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.io.File;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
@@ -31,16 +34,20 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.parse.ParseFile;
+import com.parse.ParseRelation;
 
 public class MainActivity extends Activity {
 
     // Declare Variables
     ListView listview;
-    List<ParseObject> ob;
+    List<DropTo> ob;
+    List<DropToFolder> ab;
     ProgressDialog mProgressDialog;
     ListViewAdapter adapter;
     private List<DropTo> dropToworldList = null;
-//
+
+    private List<DropToFolder> folderList = null;
+
     public final static String EXTRA_MESSAGE = "com.teratotech.dropto.MESSAGE";
     private static final String tag = "MainActivity";
     private int width;
@@ -56,6 +63,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         // Get the view from actionsheet.xml
         setContentView(R.layout.actionsheet);
+
+
+        ListView list = (ListView) findViewById(R.id.listview);
 
 
         TextView tvNewButton = (TextView) findViewById(R.id.tvUpload);
@@ -87,8 +97,6 @@ public class MainActivity extends Activity {
         new RemoteDataTask().execute();
     }
 
-
-
     // RemoteDataTask AsyncTask
     private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
         @Override
@@ -107,39 +115,32 @@ public class MainActivity extends Activity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            dropToworldList = new ArrayList<DropTo>(); //
+            dropToworldList = new ArrayList<DropTo>();
+            folderList = new ArrayList<DropToFolder>();
             try {
                 // Locate the class table named "File" in Parse.com
-                ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(
-                        "File");
+                ParseQuery<DropTo> query = new ParseQuery<DropTo>("File");
 
-               /* ParseQuery<ParseObject> fileQuery = new ParseQuery<ParseObject>(
-                   //     "File");
+                ParseQuery<DropToFolder> folderQuery = new ParseQuery<DropToFolder>("Folder");
 
-               // ParseQuery<ParseObject> folderQuery = new ParseQuery<ParseObject>(
-                //        "Folder");
-
-               // ArrayList<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
-              //  queries.add(fileQuery);
-              //  queries.add(folderQuery);
-
-               // ParseQuery<ParseObject> query = ParseQuery.or(queries);*/
-
-         //**       // Locate the column named "fileName" in Parse.com and order list by ascending
-                query.orderByAscending("fileName");
-                ob = query.find();
-                for (ParseObject file : ob) {
-                    // Locate images in flag column
-                    ParseFile image = (ParseFile) file.get("file");
-
-                    DropTo map = new DropTo(); //
-                    map.setTitle((String) file.get("fileName"));
-                    map.setDate((Date) file.get("expiryDate"));
-                   // map.setTitle((String) file.get("folderName"));
-                    map.setPhotoFileW(image.getUrl());
-                    dropToworldList.add(map);
+                folderQuery.orderByAscending("folderName");
+                ab = folderQuery.find();
+                for (DropToFolder obj : ab){
+                    Log.d("dt-mainactivity", "added folder: " + obj.getString("folderName"));
+                    folderList.add(obj);
                 }
 
+                query.orderByAscending("fileName");
+                query.include("folderId");
+                ob = query.find();
+                for (DropTo file : ob) {
+                    // Locate images in flag column
+                   // ParseFile image = (ParseFile) file.get("file");
+
+                    Log.d("dt-ma", "folder in obj: " + file.getParseObject("folderId"));
+
+                    dropToworldList.add(file);
+                }
 
             } catch (ParseException e) {
                 Log.e("Error", e.getMessage());
@@ -153,8 +154,9 @@ public class MainActivity extends Activity {
         protected void onPostExecute(Void result) {
             // Locate the listview in listview_main.xml
             listview = (ListView) findViewById(R.id.listview);
+
+            adapter  = new ListViewAdapter(MainActivity.this, getItemList());
             // Pass the results into ListViewAdapter.java
-            adapter = new ListViewAdapter(MainActivity.this, dropToworldList);
             // Binds the Adapter to the ListView
             listview.setAdapter(adapter);
             // Close the progressdialog
@@ -162,6 +164,49 @@ public class MainActivity extends Activity {
         }
     }
 
+    private List<Item> getItemList() {
+        List<Item> itemList = new ArrayList<Item>();
+
+        // All the items
+
+        Date n = new Date();
+
+        for (DropTo d : dropToworldList) {
+            File file = new File();
+            file.name = d.getString("fileName");
+            file.dropto = d;
+            Log.d("dt-mainactivity", "fin:" + file.name);
+
+            DropToFolder fff = (DropToFolder) d.getParseObject("folderId");
+
+            if (fff == null && d.getDate().compareTo(n) > 0) {
+                itemList.add(file);
+            }
+        }
+
+        // All the folders
+        for(int i = 0; i < folderList.size(); i++) {
+            Folder folder = new Folder();
+            folder.name = folderList.get(i).getString("folderName");
+            Log.d("dt-mainactivity", "fn:" + folderList.get(i).getString("folderName"));
+            //folder.
+            itemList.add(folder);
+        }
+
+        return itemList;
+    }
+
+
+    /**
+     * helper to show what happens when all data is new
+     */
+    private void reloadAllData(){
+    adapter.clear();
+    adapter.addAll(getItemList());
+
+        // fire the event
+        adapter.notifyDataSetChanged();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -169,6 +214,7 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.activity_main_actions, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -191,17 +237,23 @@ public class MainActivity extends Activity {
             return true;
         }
 
-     /*  if (id == R.id.action_folder){
 
-           RelativeLayout privatefolder = (RelativeLayout) findViewById(R.id.action_folder);
-           privatefolder.setOnClickListener(new OnClickListener() {
-               @Override
-               public void onClick(View item) {
-                   Toast.makeText(getApplicationContext(), "Private Folder", Toast.LENGTH_LONG).show();
-                   startActivity(new Intent(getApplicationContext(), RQprivateFolder.class));
-               }
-           });
-       }*/
+        switch (item.getItemId()){
+            case R.id.action_refresh:
+                Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show();
+                //adapter = new ListViewAdapter(MainActivity.this);
+                listview.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                reloadAllData();
+                break;
+            case R.id.action_folder:
+                Toast.makeText(this, "Private Folder", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), RQprivateFolder.class));
+
+                break;
+            default:
+                break;
+        }
 
         return super.onOptionsItemSelected(item);
 
