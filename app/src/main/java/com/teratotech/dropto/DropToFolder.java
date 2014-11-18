@@ -18,7 +18,6 @@ public class DropToFolder extends ParseObject {
     public String deviceId;
 
     public DropToFolder() {
-
     }
 
     public void name(String s) {
@@ -31,25 +30,19 @@ public class DropToFolder extends ParseObject {
 
     public void deviceId(String id) {
     }
-
     public String getname() {
         return getString("folderName");
     }
-
     public void setname(String foldername) {
         put("folderName", foldername);
-
     }
-
     public String getCode() {
         return getString("code");
     }
     public void setCode(String code){
         put("code", code);
     }
-    public String getDeviceid(){
-        return getString("deviceId");
-    }
+
     public void setDeviceId(String deviceId){
         put("deviceId", deviceId);
     }

@@ -22,17 +22,13 @@ public abstract class Item {
         return fileW;
     }
 
-
-  //  public String getPhotoFileW() {
-       // return fileW;
-   // }
-
     public abstract Date getDate();
-
 
     public  String getName() {
         return name;
     }
+
+    public abstract String getId();
 
 
 }

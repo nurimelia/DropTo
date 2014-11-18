@@ -32,5 +32,7 @@
 
     <string name="title_activity_rqprivate_folder">RQprivateFolder</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_re_upload">ReUpload</string>
+    <string name="title_activity_upload_to_folder">UploadToFolder</string>
 
 </resources>

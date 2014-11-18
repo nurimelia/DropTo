@@ -33,7 +33,6 @@ public class DroptoCreateFolder extends Activity {
     private TextView FolderName;
     private TextView Code;
 
-
     public  static String[] randomNumbers=new String[4];
     public static byte[] fourDigits=new byte[4];
     private  static boolean status=true;
@@ -42,7 +41,6 @@ public class DroptoCreateFolder extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dropto_create_folder);
-
 
         final Random myRandom = new Random();
         genRandomNumbers();
@@ -76,7 +74,6 @@ public class DroptoCreateFolder extends Activity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
                 }
 
             }
@@ -97,11 +94,9 @@ public class DroptoCreateFolder extends Activity {
 
                 dropToF.setCode(textGenerateNumber.getText().toString());
 
-
                 //getting unique id for device
                 String id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
                 dropToF.setDeviceId(id);
-
 
                 // Save the DroptoFolder file and return
                 dropToF.saveInBackground(new SaveCallback() {
@@ -112,14 +107,12 @@ public class DroptoCreateFolder extends Activity {
                             Toast.makeText(
                                     getApplicationContext(),
                                     "Folder is saved. ", Toast.LENGTH_SHORT).show();
-                            //setResult(Activity.RESULT_CANCELED);
                             finish();
                         }else {
                                 Toast.makeText(
                                         getApplicationContext(),
                                         "Error saving: " + e.getMessage(),
                                         Toast.LENGTH_SHORT).show();
-
                             }
                     }
                 });
@@ -134,10 +127,8 @@ public class DroptoCreateFolder extends Activity {
                 finish();
             }
         });
-
         return ;
     }
-
 
   @Override
     public boolean onCreateOptionsMenu(Menu menu) {

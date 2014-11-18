@@ -5,31 +5,68 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
 
+
 public class RQprivateFolder extends Activity {
 
-    private FrameLayout cancelButton;
-    private DropTo dropTo;
     private FrameLayout searchButton;
-    private EditText folderName;
+    private FrameLayout cancelButton;
+
+
+    private DropTo dropTo;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rqprivate_folder);
+
+
+        searchButton = ((FrameLayout) findViewById(R.id.search));
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // Search the Dropto file and return
+                dropTo.saveInBackground(new SaveCallback() {
+
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null ){
+                            Toast.makeText(getApplicationContext(),"Search Folder.",Toast.LENGTH_SHORT).show();
+
+                            finish();
+                        } else {
+                            Toast.makeText(
+                                    getApplicationContext(),"Error " + e.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+            }
+        });
+
+
+        cancelButton = ((FrameLayout) findViewById(R.id.cancel));
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                setResult(Activity.RESULT_CANCELED);
+                finish();
+            }
+        });
+
+        return ;
     }
-
-
-
 
 
     @Override
@@ -45,9 +82,7 @@ public class RQprivateFolder extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-       // if (id == R.id.action_settings) {
-         //   return true;
-       // }
+
         return super.onOptionsItemSelected(item);
     }
 }

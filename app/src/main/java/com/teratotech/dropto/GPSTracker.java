@@ -150,7 +150,6 @@ public class GPSTracker extends Service implements LocationListener {
         return longitude;
     }
 
-
     /**
      * Function to check if best network provider
      * @return boolean
@@ -192,7 +191,6 @@ public class GPSTracker extends Service implements LocationListener {
         // Showing Alert Message
         alertDialog.show();
     }
-
 
     /**
      * Stop using GPS listener

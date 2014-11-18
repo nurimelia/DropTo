@@ -3,7 +3,6 @@ package com.teratotech.dropto;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,17 +10,12 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,21 +28,15 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
 
-import com.parse.GetDataCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseImageView;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 public class DroptoUploadActivity extends Activity {
@@ -154,8 +142,6 @@ public class DroptoUploadActivity extends Activity {
                 String id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
                    dropTo.setDeviceId(id);
 
-
-
                 // Save the Dropto file and return
                 dropTo.saveInBackground(new SaveCallback() {
 
@@ -170,10 +156,8 @@ public class DroptoUploadActivity extends Activity {
                                     getApplicationContext(),
                                     "File is saved. Your Location is - \nLat: " + latitude + "\nLong: " + longitude,
                                     Toast.LENGTH_SHORT).show();
-
                                 // Close progress dialog
                                 progressDialog.dismiss();
-                                //setResult(Activity.RESULT_CANCELED);
                                 finish();
                         } else {
                             Toast.makeText(
@@ -183,7 +167,6 @@ public class DroptoUploadActivity extends Activity {
                                 // can't get location / GPS or Network is not enabled
                                 // Ask user to enable GPS/network in settings
                                gps.showSettingsAlert();
-
                         }
                     }
                 });

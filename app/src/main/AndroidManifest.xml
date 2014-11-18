@@ -72,6 +72,14 @@
             android:name=".RQprivateFolder"
             android:label="@string/title_activity_rqprivate_folder" >
         </activity>
+        <activity
+            android:name=".ReUpload"
+            android:label="@string/title_activity_re_upload" >
+        </activity>
+        <activity
+            android:name=".UploadToFolder"
+            android:label="@string/title_activity_upload_to_folder" >
+        </activity>
     </application>
 
 </manifest>

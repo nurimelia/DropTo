@@ -1,14 +1,11 @@
 package com.teratotech.dropto;
 
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -65,26 +62,22 @@ public class ListViewAdapter extends ArrayAdapter<Item> {
             holder.expiryDate.setText("Folder");
         }
 
-        // Listen for ListView Item Click
+        /*// Listen for ListView Item Click
         view.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
-                // Send single item click data to SingleItemView Class
-                Intent intent = new Intent(context, SingleItemView.class);
-                // Pass all data
-                intent.putExtra("fileName", item.getName());
+                //Send single item click data to SingleItemView Class
+              //  Intent intent = new Intent(context, SingleItemView.class);
+                //Pass all data
+              //  intent.putExtra("fileName", item.getName());
+              // intent.putExtra ("file", item.getImage());
+                //Start SingleItemView Class
+              //  context.startActivity(intent);
 
-               // intent.putExtra("file", item.getPhotoFileW());
-
-              intent.putExtra ("file", item.getImage());
-                //imageLoader.DisplayImage(dropto.getParseFile("file").getUrl(), imageView);
-
-                // Start SingleItemView Class
-                context.startActivity(intent);
             }
-        });
+        });*/
         return view;
+
     }
 
 

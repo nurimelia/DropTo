@@ -20,12 +20,11 @@ public class Folder extends Item{
 
     @Override
     public Date getDate() {
-
         return null;
     }
 
-    //@Override
-  //  public String getPhotoFileW() {
-      //  return null;
-  //  }
+    @Override
+    public String getId() {
+        return dropto.getObjectId();
+    }
 }

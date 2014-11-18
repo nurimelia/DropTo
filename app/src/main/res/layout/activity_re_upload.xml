@@ -1,17 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.teratotech.dropto.DroptoUploadActivity"
     android:background="#FFFFFF">
 
 
     <LinearLayout
-        android:id="@+id/dropto_buttons"
+        android:id="@+id/dropto_create_folder"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
@@ -40,10 +39,10 @@
                 android:paddingRight="20dp"
                 android:text="@string/label_discard"
                 android:textColor="#000000" />
+
         </FrameLayout>
 
         <FrameLayout
-
             android:id="@+id/action_save"
             style="?android:actionButtonStyle"
             android:layout_width="0dp"
@@ -64,73 +63,28 @@
                 android:text="@string/label_save"
                 android:textColor="#000000" />
 
-
         </FrameLayout>
 
     </LinearLayout>
 
-    <View style="@style/Separator" android:layout_above="@id/dropto_buttons" />
+    <View style="@style/Separator" android:layout_above="@id/dropto_create_folder" />
 
     <LinearLayout
-        android:id="@+id/dropedit_form"
+        android:id="@+id/droptocreate_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="3dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="1dp"
-            android:text="@string/dropto_label"
-            android:textSize="15sp"
-            android:textColor="@color/black"/>
-
-        <EditText
-            android:id="@+id/file_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:textColor="@color/black"/>
-
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Upload Video"
-            android:id="@+id/btnUploadVideo"
-            android:textColor="@color/black"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Upload Photo"
-            android:id="@+id/btnUploadPhoto"
-            android:layout_below="@+id/btnUploadVideo"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="6dp"
-            android:textColor="@color/black" />
-
-        <com.parse.ParseImageView
-            android:id="@+id/dropto_preview_image"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:src="@drawable/ic_action_camera"
-            android:layout_below="@+id/btnSelectPhoto"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_gravity="center_horizontal" />
+        android:padding="16dp">
 
         <Spinner
             android:id="@+id/rating_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
             android:entries="@array/expiryDate_array"
-            android:textColor="#ff000000"
+            android:textColor="#000000"
+            android:dropDownSelector="@color/black"
             />
 
-        </LinearLayout>
 
+    </LinearLayout>
 </RelativeLayout>

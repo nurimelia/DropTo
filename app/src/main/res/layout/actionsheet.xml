@@ -25,7 +25,6 @@
         android:background="#FFFFFF"
         android:visibility="gone">
 
-
         <TextView
             android:id="@+id/tvUpload"
             android:layout_width="fill_parent"

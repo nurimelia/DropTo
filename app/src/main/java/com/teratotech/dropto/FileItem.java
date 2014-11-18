@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by nurimelia on 11/4/14.
  */
-public class File extends Item{
+public class FileItem extends Item{
     public DropTo dropto;
 
     @Override
@@ -19,10 +19,6 @@ public class File extends Item{
     public String getImage(){
         return dropto.getString("file");
     }
-  //  @Override
-  //  public String getPhotoFileW() {
-  //      return dropto.getPhotoFileW();
-   // }
 
     @Override
     public Date getDate() {
@@ -32,6 +28,11 @@ public class File extends Item{
     @Override
     public String getName() {
         return dropto.getString("fileName");
+    }
+
+    @Override
+    public String getId() {
+        return dropto.getObjectId();
     }
 
 }

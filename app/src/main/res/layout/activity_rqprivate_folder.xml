@@ -18,7 +18,7 @@
         android:showDividers="middle">
 
         <FrameLayout
-            android:id="@+id/action_discard"
+            android:id="@+id/cancel"
             style="?android:actionButtonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -41,7 +41,7 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/action_save"
+            android:id="@+id/search"
             style="?android:actionButtonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
