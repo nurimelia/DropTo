@@ -123,6 +123,9 @@ public class DroptoUploadActivity extends Activity {
                 dropTo.setPhotoFile(new ParseFile(stream.toByteArray()));
 
 
+
+
+
                 // If the user added a video,
                 //ByteArrayOutputStream baos = new ByteArrayOutputStream();
               //  FileInputStream fis = new FileInputStream(new FileInputStream());

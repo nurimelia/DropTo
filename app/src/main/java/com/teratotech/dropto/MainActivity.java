@@ -47,16 +47,13 @@ public class MainActivity extends Activity {
     ProgressDialog mProgressDialog;
     ListViewAdapter adapter;
     private List<DropTo> dropToList = null;
-
     private List<DropToFolder> folderList = null;
 
     public final static String EXTRA_MESSAGE = "com.teratotech.dropto.MESSAGE";
     private static final String tag = "MainActivity";
     private int width;
     private WindowManager.LayoutParams params;
-
     private ProgressDialog progressDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,14 +91,13 @@ public class MainActivity extends Activity {
 
                 if (item instanceof FileItem) {
                     // file
-                    selectDownload(item.getId());
+                    selectDownload(item);
                 }
                 if (item instanceof Folder) {
                     // folder
                     startActivity(new Intent(getApplicationContext(), DroptoUploadActivity.class));
                 }
             }
-
         });
 
         DisplayMetrics metrics = new DisplayMetrics();
@@ -116,7 +112,7 @@ public class MainActivity extends Activity {
         new RemoteDataTask().execute();
     }
 
-    private void selectDownload(final String id) {
+    private void selectDownload(final Item pitem) {
         final CharSequence[] options = {"Download", "ReUpload","Remove"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -129,7 +125,7 @@ public class MainActivity extends Activity {
                     progressDialog = ProgressDialog.show(MainActivity.this, "","Downloading Image...", true);
                     ParseQuery<DropTo> query = new ParseQuery<DropTo>("File");
                     // Locate the objectId from the class
-                    query.getInBackground(id, new GetCallback<DropTo>() {
+                    query.getInBackground(pitem.getId(), new GetCallback<DropTo>() {
 
                                     public void done(DropTo object,ParseException e) {
                                         // Locate the column named "Image Name" and set the string
@@ -162,16 +158,22 @@ public class MainActivity extends Activity {
 
                 else if (options[item].equals("ReUpload"))
                 {
-                    startActivity(new Intent(getApplicationContext(), ReUpload.class));
+                    Intent intent = new Intent(MainActivity.this, ReUpload.class);
+                    Bundle b = new Bundle();
+                    b.putString("objectId",pitem.getId());
+                    intent.putExtras(b);
+                    startActivity(intent);
                 }
                 else if(options[item].equals("Remove")){
 
-                    File file = new File(id);
-                    boolean deleted = file.delete();
-                    Log.v("test","deleted: " + deleted);
-
-                    //  DropTo.deleteInBackground();
-                   // dialog.dismiss();
+                    DropTo d = ((FileItem) pitem).dropto;
+                    Log.d("MainActivity", "deleting " + d.getString("fileName"));
+                    d.deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Log.d("MainActivity", "deleted");
+                        }
+                    });
 
                 }
             }

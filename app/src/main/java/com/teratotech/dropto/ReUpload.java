@@ -22,7 +22,7 @@ public class ReUpload extends Activity {
 
     private FrameLayout saveButton;
     private FrameLayout cancelButton;
-    ListViewAdapter adapter;
+
 
     private Spinner dropToDate;
 
@@ -34,15 +34,11 @@ public class ReUpload extends Activity {
             72 * 60 * 60 * 1000
     };
 
-    private DropTo dropTo;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_re_upload);
 
-
-        // The droptoRating spinner lets people assign durations of files they've upload.
         dropToDate = ((Spinner) findViewById(R.id.rating_spinner));
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.expiryDate_array,
                 android.R.layout.simple_spinner_dropdown_item);
@@ -50,49 +46,46 @@ public class ReUpload extends Activity {
 
         saveButton = ((FrameLayout) findViewById(R.id.action_save));
         saveButton.setOnClickListener(new View.OnClickListener() {
+
+            Bundle b = getIntent().getExtras();
+            String value = b.getString("objectId");
+
             @Override
             public void onClick(View view) {
-
 
                 // Add the rating (the duraction )
                 int pos = dropToDate.getSelectedItemPosition();
                 long currentms = System.currentTimeMillis();
                 long newms = currentms + durations[pos];
-                Date expiry = new Date();
+                final Date expiry = new Date();
                 expiry.setTime(newms);
-                dropTo.setDate(expiry);
 
-                // Save the Dropto file and return
-               // dropTo.saveInBackground(new SaveCallback() {
+                ParseQuery<DropTo> query = new ParseQuery<DropTo>("File");
+                query.getInBackground(value,new GetCallback<DropTo>(){
 
-
-                    ParseQuery<DropTo> query = new ParseQuery<DropTo>("File");
-                    //Retrieve the object by id
-                    query.getInBackground("nLBx9v0K6A",new GetCallback<DropTo>(){
-
-                   // @Override
+                    @Override
                     public void done(DropTo update,ParseException e) {
                         if (e == null ){
-                            update.put("expiryDate", 123);
-                                Toast.makeText(getApplicationContext(),"File is update.",Toast.LENGTH_SHORT).show();
-
-                                finish();
+                            update.put("expiryDate", expiry);
+                            update.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    Toast.makeText(getApplicationContext(),"File is update.",Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            });
                             } else {
                                 Toast.makeText(
                                         getApplicationContext(),"Error update: " + e.getMessage(),
                                         Toast.LENGTH_SHORT).show();
-
                             }
-                        //dropTo.saveInBackground();
                     }
                 });
             }
         });
 
-
         cancelButton = ((FrameLayout) findViewById(R.id.action_discard));
         cancelButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 setResult(Activity.RESULT_CANCELED);
