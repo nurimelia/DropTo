@@ -5,19 +5,24 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class RQprivateFolder extends Activity {
 
     private FrameLayout searchButton;
     private FrameLayout cancelButton;
-
+    private ListView lv;
 
     private DropTo dropTo;
 
@@ -72,7 +77,6 @@ public class RQprivateFolder extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.rqprivate_folder, menu);
         return true;
     }
 

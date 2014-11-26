@@ -61,25 +61,8 @@ public class ListViewAdapter extends ArrayAdapter<Item> {
         } else {
             holder.expiryDate.setText("Folder");
         }
-
-        /*// Listen for ListView Item Click
-        view.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                //Send single item click data to SingleItemView Class
-              //  Intent intent = new Intent(context, SingleItemView.class);
-                //Pass all data
-              //  intent.putExtra("fileName", item.getName());
-              // intent.putExtra ("file", item.getImage());
-                //Start SingleItemView Class
-              //  context.startActivity(intent);
-
-            }
-        });*/
         return view;
 
     }
-
-
 
 }

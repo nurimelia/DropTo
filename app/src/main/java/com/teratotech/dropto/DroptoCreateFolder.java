@@ -79,9 +79,7 @@ public class DroptoCreateFolder extends Activity {
             }
         }).start();
 
-
         FolderName = ((EditText) findViewById(R.id.droptocreate_title));
-       // Code = ((EditText) findViewById(R.id.generatenumber));
         final TextView textGenerateNumber = (TextView)findViewById(R.id.generatenumber);
 
         saveButton = ((FrameLayout) findViewById(R.id.action_save));

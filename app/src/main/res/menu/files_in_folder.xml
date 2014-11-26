@@ -5,19 +5,19 @@
     android:layout_height="fill_parent"
     android:background="@color/white">
 
-    <!-- Find folder / will display always -->
-    <item android:id="@+id/action_folder"
-        android:icon="@drawable/ic_action_storage"
-        android:title="@string/action_folder"
-        android:showAsAction="ifRoom" />
-
     <!-- Upload / will display always -->
-    <item android:id="@+id/action_download"
+    <item android:id="@+id/upload"
         android:icon="@drawable/ic_action_upload"
-        android:title="@string/action_download"
+        android:title="@string/action_upload"
         android:onClick="onOptionsItemSelected"
         android:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_refresh">
+    </item>
 
 
 </menu>

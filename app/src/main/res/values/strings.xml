@@ -34,5 +34,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_re_upload">ReUpload</string>
     <string name="title_activity_upload_to_folder">UploadToFolder</string>
+    <string name="title_activity_files_in_folder">Files In Folder</string>
 
 </resources>

@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by nurimelia on 11/4/14.
  */
 public class Folder extends Item{
-    public DropTo dropto;
+    public DropToFolder droptoF;
     @Override
     public void setImage(ImageLoader imageLoader, ImageView image) {
         image.setImageResource(R.drawable.seedericon);
@@ -25,6 +25,6 @@ public class Folder extends Item{
 
     @Override
     public String getId() {
-        return dropto.getObjectId();
+        return droptoF.getObjectId();
     }
 }

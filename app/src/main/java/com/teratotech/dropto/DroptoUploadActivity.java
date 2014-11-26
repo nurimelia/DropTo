@@ -34,19 +34,19 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
 
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 public class DroptoUploadActivity extends Activity {
-
 
     GPSTracker gps; // GPSTracker class
     private FrameLayout saveButton;
     private FrameLayout cancelButton;
     private TextView FileName;
-    private TextView DeviceId;
     private Spinner dropToDate;
 
     private String selectedGalleryFileName;
@@ -64,12 +64,20 @@ public class DroptoUploadActivity extends Activity {
     Button b;
     Button c;
 
+    private String folderId;
+
     private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dropto_upload);
+
+        Bundle a = getIntent().getExtras();
+
+        if (a != null) {
+            folderId = a.getString("folderId");
+        }
 
         b = (Button) findViewById(R.id.btnUploadPhoto);
         viewImage = (ImageView) findViewById(R.id.dropto_preview_image);
@@ -102,27 +110,26 @@ public class DroptoUploadActivity extends Activity {
             @Override
             public void onClick(View view) {
 
+
+
                 progressDialog = ProgressDialog.show(DroptoUploadActivity.this, "", "Uploading File...", true);
                 dropTo = new DropTo();
             // When the user clicks "Save," upload the file to Parse / Add data to the dropto object:
                 dropTo.setfileName(FileName.getText().toString());
                 dropTo.setFileType("jpg");
 
+                if (folderId != null) dropTo.setFolderId(folderId);
+
                 // Add the rating (the duraction )
                 int pos = dropToDate.getSelectedItemPosition();
                 long currentms = System.currentTimeMillis();
                 long newms = currentms + durations[pos];
                 Date expiry = new Date();
-                expiry.setTime(newms);
-                dropTo.setDate(expiry);
 
-                // If the user added a photo,
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 Bitmap b = BitmapFactory.decodeFile(selectedGalleryFileName);
                 b.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 dropTo.setPhotoFile(new ParseFile(stream.toByteArray()));
-
-
 
 
 
@@ -132,18 +139,21 @@ public class DroptoUploadActivity extends Activity {
                // byte[] videoBytes = baos.toByteArray(); //this is the video in bytes.
 
 
-                // create class object
-                        gps = new GPSTracker(DroptoUploadActivity.this);
+                gps = new GPSTracker(DroptoUploadActivity.this);
 
-                        // check if GPS enabled
-                            double latitude = gps.getLatitude();
-                            double longitude = gps.getLongitude();
-                            ParseGeoPoint pgp = new ParseGeoPoint(latitude, longitude);
-                            dropTo.setLocation(pgp);
+                     // check
+                expiry.setTime(newms);
+                dropTo.setDate(expiry);
+
+                // If the user added a photo, if GPS enabled
+                     double latitude = gps.getLatitude();
+                     double longitude = gps.getLongitude();
+                     ParseGeoPoint pgp = new ParseGeoPoint(latitude, longitude);
+                     dropTo.setLocation(pgp);
 
                 //getting unique id for device
                 String id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-                   dropTo.setDeviceId(id);
+                dropTo.setDeviceId(id);
 
                 // Save the Dropto file and return
                 dropTo.saveInBackground(new SaveCallback() {
@@ -151,7 +161,6 @@ public class DroptoUploadActivity extends Activity {
                     @Override
                     public void done(ParseException e) {
                         if (e == null )
-                            // check if GPS enabled
                             if(gps.canGetLocation()){
                             double latitude = gps.getLatitude();
                             double longitude = gps.getLongitude();
@@ -176,20 +185,18 @@ public class DroptoUploadActivity extends Activity {
             }
         });
 
-
         cancelButton = ((FrameLayout) findViewById(R.id.action_discard));
         cancelButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                setResult(Activity.RESULT_CANCELED);
+               setResult(Activity.RESULT_CANCELED);
                finish();
             }
         });
 
         return ;
     }
-
 
     private void selectImage(){
         final CharSequence[] options = {"Take Photo", "Choose from Gallery","Cancel"};
@@ -209,7 +216,7 @@ public class DroptoUploadActivity extends Activity {
                 else if (options[item].equals("Choose from Gallery"))
                 {
                     Intent intent = new
-                            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                           Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 2);
                 }
                 else if(options[item].equals("Cancel")){
@@ -219,7 +226,6 @@ public class DroptoUploadActivity extends Activity {
         });
         builder.show();
     }
-
 
     private void selectVideo(){
         final CharSequence[] options = {"Take Video", "Choose from Gallery","Cancel"};

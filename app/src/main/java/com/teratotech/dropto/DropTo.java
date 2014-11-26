@@ -63,6 +63,8 @@ public class DropTo extends ParseObject {
         this.fileW = file;
     }
 
-
+    public void setFolderId(String folderId) {
+        put("folderId", DropToFolder.createWithoutData("Folder", folderId));
+    }
 
 }
