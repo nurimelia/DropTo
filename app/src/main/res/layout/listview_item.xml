@@ -5,13 +5,14 @@
     android:background="@drawable/list_row_selector"
     android:padding="8dp" >
 
-  <!--  <TextView
-        android:id="@+id/separator"
+    <TextView
+        android:id="@+id/textSeparator"
         style="?android:attr/listSeparatorTextViewStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:text="dffdddfd"/> -->
+        android:text="dffdddfd"/>
+
     <!-- Thumbnail Image -->
     <ImageView
         android:id="@+id/file"

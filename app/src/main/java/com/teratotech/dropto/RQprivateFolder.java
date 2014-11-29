@@ -1,6 +1,7 @@
 package com.teratotech.dropto;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,41 +25,26 @@ public class RQprivateFolder extends Activity {
     private FrameLayout cancelButton;
     private ListView lv;
 
-    private DropTo dropTo;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rqprivate_folder);
 
-
         searchButton = ((FrameLayout) findViewById(R.id.search));
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
 
-                // Search the Dropto file and return
-                dropTo.saveInBackground(new SaveCallback() {
+                            EditText editText = (EditText) findViewById(R.id.generatenumber);
+                            String code= editText.getText().toString();
 
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null ){
-                            Toast.makeText(getApplicationContext(),"Search Folder.",Toast.LENGTH_SHORT).show();
-
-                            finish();
-                        } else {
-                            Toast.makeText(
-                                    getApplicationContext(),"Error " + e.getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-                });
+                            Intent intent = new Intent(RQprivateFolder.this, MainActivity.class);
+                            Bundle abc = new Bundle();
+                            abc.putString("code", code);
+                            intent.putExtras(abc);
+                            startActivity(intent);
             }
         });
-
 
         cancelButton = ((FrameLayout) findViewById(R.id.cancel));
         cancelButton.setOnClickListener(new View.OnClickListener() {

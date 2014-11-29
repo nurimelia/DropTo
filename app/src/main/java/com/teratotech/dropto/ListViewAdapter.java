@@ -17,6 +17,9 @@ public class ListViewAdapter extends ArrayAdapter<Item> {
     Context context;
     ImageLoader imageLoader;
 
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_SEPARATOR = 1;
+
     public ListViewAdapter(Context context, List<Item> objects) {
         super(context, R.layout.listview_item, objects);
         this.context = context;
@@ -32,18 +35,28 @@ public class ListViewAdapter extends ArrayAdapter<Item> {
     public View getView(final int position, View view, ViewGroup parent) {
         final ViewHolder holder;
 
-        if (view == null){
+        int rowType = getItemViewType(position);
+
+        if (view == null) {
 
             holder = new ViewHolder();
+            switch (rowType) {
+                case TYPE_ITEM:
+
             view = LayoutInflater.from(getContext()).inflate(R.layout.listview_item, parent, false);
             // Locate the TextViews in listview_item.xml
-           // holder.fileName = (TextView) view.findViewById(R.id.separator);
+           // holder.fileName = (TextView) view.findViewById(R.id.textSeparator);
             holder.fileName = (TextView) view.findViewById(R.id.file_name);
             holder.expiryDate = (TextView) view.findViewById(R.id.expiryDate);
-
-            // Locate the ImageView in listview_item.xml
             holder.fileW = (ImageView) view.findViewById(R.id.file);
-            view.setTag(holder);
+
+                    break;
+                case TYPE_SEPARATOR:
+                    view = LayoutInflater.from(getContext()).inflate(R.layout.listview_item, parent, false);
+                    holder.fileName = (TextView) view.findViewById(R.id.textSeparator);
+                    break;
+
+        }view.setTag(holder);
         } else
         {
             holder = (ViewHolder) view.getTag();

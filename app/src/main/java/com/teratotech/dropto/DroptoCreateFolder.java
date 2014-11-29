@@ -1,27 +1,17 @@
 package com.teratotech.dropto;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseGeoPoint;
 import com.parse.SaveCallback;
-
-import java.io.ByteArrayOutputStream;
-import java.util.Date;
 import java.util.Random;
 
 
@@ -60,7 +50,6 @@ public class DroptoCreateFolder extends Activity {
 
             @Override
             public void run() {
-
                 Random random=new Random();
                 while(true) {
 
@@ -75,7 +64,6 @@ public class DroptoCreateFolder extends Activity {
                         e.printStackTrace();
                     }
                 }
-
             }
         }).start();
 
@@ -89,7 +77,6 @@ public class DroptoCreateFolder extends Activity {
                 dropToF = new DropToFolder();
                 // When the user clicks "Save," upload the foldername to Parse / Add data to the dropto object:
                 dropToF.setname(FolderName.getText().toString());
-
                 dropToF.setCode(textGenerateNumber.getText().toString());
 
                 //getting unique id for device

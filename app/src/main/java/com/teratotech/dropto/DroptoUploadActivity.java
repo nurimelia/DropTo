@@ -34,11 +34,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
 
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 public class DroptoUploadActivity extends Activity {
@@ -78,7 +76,6 @@ public class DroptoUploadActivity extends Activity {
         if (a != null) {
             folderId = a.getString("folderId");
         }
-
         b = (Button) findViewById(R.id.btnUploadPhoto);
         viewImage = (ImageView) findViewById(R.id.dropto_preview_image);
         b.setOnClickListener(new View.OnClickListener() {
@@ -110,8 +107,6 @@ public class DroptoUploadActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-
-
                 progressDialog = ProgressDialog.show(DroptoUploadActivity.this, "", "Uploading File...", true);
                 dropTo = new DropTo();
             // When the user clicks "Save," upload the file to Parse / Add data to the dropto object:
@@ -131,13 +126,10 @@ public class DroptoUploadActivity extends Activity {
                 b.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 dropTo.setPhotoFile(new ParseFile(stream.toByteArray()));
 
-
-
                 // If the user added a video,
                 //ByteArrayOutputStream baos = new ByteArrayOutputStream();
               //  FileInputStream fis = new FileInputStream(new FileInputStream());
                // byte[] videoBytes = baos.toByteArray(); //this is the video in bytes.
-
 
                 gps = new GPSTracker(DroptoUploadActivity.this);
 

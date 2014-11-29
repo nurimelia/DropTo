@@ -75,7 +75,6 @@ public class FilesInFolder extends Activity {
             @Override
             public void onClick(View item) {
                 Toast.makeText(getApplicationContext(), "Upload file", Toast.LENGTH_LONG).show();
-                //startActivity(new Intent(getApplicationContext(), DroptoUploadActivity.class));
 
                 Intent intent = new Intent(FilesInFolder.this, DroptoUploadActivity.class);
                 Bundle a = new Bundle();

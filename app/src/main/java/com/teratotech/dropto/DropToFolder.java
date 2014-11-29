@@ -2,7 +2,6 @@ package com.teratotech.dropto;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
-import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ public class DropToFolder extends ParseObject {
     public String name;
     public String id;
     public String code;
-    public String deviceId;
 
     public DropToFolder() {
     }
@@ -27,12 +25,6 @@ public class DropToFolder extends ParseObject {
     public void code(String s) {
         this.code = s;
     }
-
-    public void deviceId(String id) {
-    }
-    public String getname() {
-        return getString("folderName");
-    }
     public void setname(String foldername) {
         put("folderName", foldername);
     }
@@ -42,7 +34,6 @@ public class DropToFolder extends ParseObject {
     public void setCode(String code){
         put("code", code);
     }
-
     public void setDeviceId(String deviceId){
         put("deviceId", deviceId);
     }

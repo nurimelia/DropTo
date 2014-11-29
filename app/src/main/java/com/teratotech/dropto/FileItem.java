@@ -35,4 +35,10 @@ public class FileItem extends Item{
         return dropto.getObjectId();
     }
 
+    @Override
+    public String getCode() {
+        return null;
+                //dropto.getCode();
+    }
+
 }

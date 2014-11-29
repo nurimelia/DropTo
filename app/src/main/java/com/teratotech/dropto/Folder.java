@@ -27,4 +27,8 @@ public class Folder extends Item{
     public String getId() {
         return droptoF.getObjectId();
     }
+    @Override
+    public String getCode() {
+        return droptoF.getCode();
+    }
 }

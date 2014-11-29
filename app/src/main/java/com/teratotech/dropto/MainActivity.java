@@ -101,10 +101,11 @@ public class MainActivity extends Activity {
                     a.putString("objectId", item.getId());
                     intent.putExtras(a);
                     startActivity(intent);
-                    //startActivity(new Intent(getApplicationContext(), DroptoUploadActivity.class));
                 }
             }
         });
+
+       ///////////
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -186,7 +187,6 @@ public class MainActivity extends Activity {
         builder.show();
     }
 
-
     // RemoteDataTask AsyncTask
     private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
         @Override
@@ -250,6 +250,13 @@ public class MainActivity extends Activity {
     private List<Item> getItemList() {
         List<Item> itemList = new ArrayList<Item>();
 
+        Bundle abc = getIntent().getExtras();
+        String value = "";
+
+        if (abc != null) {
+            value = abc.getString("code");
+        }
+
         // All the items
         Date n = new Date();
 
@@ -270,10 +277,17 @@ public class MainActivity extends Activity {
             Folder folder = new Folder();
             folder.name = folderList.get(i).getString("folderName");
             folder.droptoF = folderList.get(i);
-            Log.d("dt-mainactivity", "fn:" + folderList.get(i).getString("folderName"));
+            Log.d("dt-mainactivity", "fn:" + folderList.get(i).getString("deviceId"));
 
-            itemList.add(folder);
+            String hhh = folderList.get(i).getString("deviceId");
+            String code = folderList.get(i).getString("code");
 
+            //getting unique id for device
+            String id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
+            if (code.equals(value) || hhh.equals(id)) {
+                itemList.add(folder);
+            }
         }
         return itemList;
     }
