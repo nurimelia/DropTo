@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,10 +40,12 @@ import com.parse.ParseAnalytics;
 import java.util.ArrayList;
 import com.parse.ParseFile;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
 public class MainActivity extends Activity {
 
     // Declare Variables
-    ListView listview;
+    StickyListHeadersListView listview;
     List<DropTo> ob;
     List<DropToFolder> ab;
     ProgressDialog mProgressDialog;
@@ -83,8 +86,8 @@ public class MainActivity extends Activity {
             }
         });
 
-        ListView list = (ListView) findViewById(R.id.listview);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listview = (StickyListHeadersListView) findViewById(R.id.listview);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -105,7 +108,6 @@ public class MainActivity extends Activity {
             }
         });
 
-       ///////////
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -237,7 +239,7 @@ public class MainActivity extends Activity {
         @Override
         protected void onPostExecute(Void result) {
             // Locate the listview in listview_main.xml
-            listview = (ListView) findViewById(R.id.listview);
+            listview = (StickyListHeadersListView) findViewById(R.id.listview);
             adapter  = new ListViewAdapter(MainActivity.this, getItemList());
             // Pass the results into ListViewAdapter.java
             // Binds the Adapter to the ListView

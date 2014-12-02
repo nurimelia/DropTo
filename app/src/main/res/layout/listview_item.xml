@@ -9,11 +9,11 @@
         android:id="@+id/textSeparator"
         style="?android:attr/listSeparatorTextViewStyle"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:text="dffdddfd"/>
+        android:layout_height="20dp"
+        android:textColor="#DC1414"
+       />
 
-    <!-- Thumbnail Image -->
+    <!-- Thumbnail Image  android:background="#DC1414" -->
     <ImageView
         android:id="@+id/file"
         android:layout_width="80dp"

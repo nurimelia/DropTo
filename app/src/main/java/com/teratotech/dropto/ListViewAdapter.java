@@ -11,7 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ListViewAdapter extends ArrayAdapter<Item> {
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
+public class ListViewAdapter extends ArrayAdapter<Item> implements StickyListHeadersAdapter {
 
     // Declare Variables
     Context context;
@@ -25,6 +27,37 @@ public class ListViewAdapter extends ArrayAdapter<Item> {
         this.context = context;
         imageLoader = new ImageLoader(context);
     }
+
+    @Override
+    public View getHeaderView(int position, View view, ViewGroup parent) {
+        ViewHolder holder = new ViewHolder();
+        if (view == null) {
+            view = LayoutInflater.from(getContext()).inflate(R.layout.listview_item, parent, false);
+            holder.fileName = (TextView) view.findViewById(R.id.textSeparator);
+            view.setTag(holder);
+        }else
+        {
+            holder = (ViewHolder) view.getTag();
+        }
+
+        final Item item = getItem(position);
+        holder.fileName.setText(item.getName());
+        //holder.fileName.setText("Header");
+        return view; // the thing to display
+
+
+    }
+
+    @Override
+    public long getHeaderId(int i) {
+        // sample: items in group a returns 1
+        // items in grooup b returns 2
+            //return the first character of the country as ID because this is what headers are based upon
+        //return [i].subSequence(0, 1).charAt(0);
+
+        return 0;//
+    }
+
 
     public class ViewHolder {
         TextView fileName;
