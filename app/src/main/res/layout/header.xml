@@ -3,27 +3,16 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/list_row_selector"
-    android:padding="8dp" >
+    android:padding="2dp" >
 
-    <!-- Thumbnail Image  -->
-    <ImageView
-        android:id="@+id/file"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="8dp" />
-
-    <!--  Title -->
     <TextView
-        android:id="@+id/file_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/file"
-        android:layout_toRightOf="@+id/file"
-        android:textSize="@dimen/title"
-        android:textStyle="bold"
+        android:id="@+id/textSeparator"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
         android:textColor="@color/black"
-        android:layout_below="@+id/textSeparator"/>
+        android:background="#DC1414"
+        />
 
     <!-- Expiry Date-->
     <TextView

@@ -33,7 +33,10 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 public class FilesInFolder extends Activity {
@@ -234,7 +237,29 @@ public class FilesInFolder extends Activity {
         protected void onPostExecute(Void result) {
             // Locate the listview in listview_main.xml
             listview = (ListView) findViewById(R.id.listview);
-            adapter  = new ListViewAdapter(FilesInFolder.this, getItemList());
+            List<Item> list =getItemList();
+            Collections.sort(list, new Comparator<Item>() {
+                @Override
+                public int compare(Item item, Item item2) {
+                    return item.getDeviceId().compareTo(item2.getDeviceId());
+                }
+            });
+
+            List<Long> headers = new LinkedList<Long>();
+            long header = 0;
+            String currentDeviceId, prevDeviceId = null;
+            for(int i = 0; i < list.size(); i++) {
+                currentDeviceId = list.get(i).getDeviceId();
+                if(prevDeviceId != null && currentDeviceId.equalsIgnoreCase(currentDeviceId)) {
+
+                } else {
+                    header++;
+                }
+
+                headers.add(header);
+                prevDeviceId = currentDeviceId;
+            }
+            adapter  = new ListViewAdapter(FilesInFolder.this, getItemList(), headers);
             // Pass the results into ListViewAdapter.java
             // Binds the Adapter to the ListView
             listview.setAdapter(adapter);

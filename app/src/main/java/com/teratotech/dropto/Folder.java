@@ -31,4 +31,10 @@ public class Folder extends Item{
     public String getCode() {
         return droptoF.getCode();
     }
+
+    @Override
+    public String getDeviceId() {
+        return droptoF.getDeviceId();
+
+    }
 }

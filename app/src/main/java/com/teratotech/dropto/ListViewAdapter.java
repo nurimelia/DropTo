@@ -21,43 +21,14 @@ public class ListViewAdapter extends ArrayAdapter<Item> implements StickyListHea
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SEPARATOR = 1;
+    private List<Long> headers;
 
-    public ListViewAdapter(Context context, List<Item> objects) {
+    public ListViewAdapter(Context context, List<Item> objects, List<Long> headers) {
         super(context, R.layout.listview_item, objects);
         this.context = context;
         imageLoader = new ImageLoader(context);
+        this.headers = headers;
     }
-
-    @Override
-    public View getHeaderView(int position, View view, ViewGroup parent) {
-        ViewHolder holder = new ViewHolder();
-        if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.listview_item, parent, false);
-            holder.fileName = (TextView) view.findViewById(R.id.textSeparator);
-            view.setTag(holder);
-        }else
-        {
-            holder = (ViewHolder) view.getTag();
-        }
-
-        final Item item = getItem(position);
-        holder.fileName.setText(item.getName());
-        //holder.fileName.setText("Header");
-        return view; // the thing to display
-
-
-    }
-
-    @Override
-    public long getHeaderId(int i) {
-        // sample: items in group a returns 1
-        // items in grooup b returns 2
-            //return the first character of the country as ID because this is what headers are based upon
-        //return [i].subSequence(0, 1).charAt(0);
-
-        return 0;//
-    }
-
 
     public class ViewHolder {
         TextView fileName;
@@ -82,7 +53,6 @@ public class ListViewAdapter extends ArrayAdapter<Item> implements StickyListHea
             holder.fileName = (TextView) view.findViewById(R.id.file_name);
             holder.expiryDate = (TextView) view.findViewById(R.id.expiryDate);
             holder.fileW = (ImageView) view.findViewById(R.id.file);
-
                     break;
                 case TYPE_SEPARATOR:
                     view = LayoutInflater.from(getContext()).inflate(R.layout.listview_item, parent, false);
@@ -98,7 +68,6 @@ public class ListViewAdapter extends ArrayAdapter<Item> implements StickyListHea
 
         Date d = item.getDate();
         holder.fileName.setText(item.getName());
-
             // Set the results into ImageView
         item.setImage(imageLoader, holder.fileW);
 
@@ -108,6 +77,32 @@ public class ListViewAdapter extends ArrayAdapter<Item> implements StickyListHea
             holder.expiryDate.setText("Folder");
         }
         return view;
+    }
+
+    @Override
+    public View getHeaderView(int position, View view, ViewGroup parent) {
+        ViewHolder holder = new ViewHolder();
+        if (view == null) {
+            view = LayoutInflater.from(getContext()).inflate(R.layout.header, parent, false);
+            holder.fileName = (TextView) view.findViewById(R.id.textSeparator);
+            view.setTag(holder);
+        }else
+        {
+            holder = (ViewHolder) view.getTag();
+        }
+        final Item item = getItem(position);
+        //holder.fileName.setText("Header " + headers.get(position));
+        holder.fileName.setText(item.getDeviceId());
+        return view; // the thing to display
+    }
+
+    @Override
+    public long getHeaderId(int i) {
+        // sample: items in group a returns 1
+        // items in grooup b returns 2
+        Item item = getItem(i);
+        return item.getDeviceId().hashCode();
+
 
     }
 

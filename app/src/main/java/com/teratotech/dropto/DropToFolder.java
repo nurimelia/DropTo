@@ -37,6 +37,9 @@ public class DropToFolder extends ParseObject {
     public void setDeviceId(String deviceId){
         put("deviceId", deviceId);
     }
+    public String getDeviceId() {
+        return getString("deviceId");
+    }
 
 }
 

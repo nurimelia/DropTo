@@ -99,7 +99,7 @@ public class DroptoUploadActivity extends Activity {
         dropToDate = ((Spinner) findViewById(R.id.rating_spinner));
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter
                 .createFromResource(this, R.array.expiryDate_array,
-                        android.R.layout.simple_spinner_dropdown_item);
+                        R.layout.simple_spinner_dropdown_item);
         dropToDate.setAdapter(spinnerAdapter);
 
         saveButton = ((FrameLayout) findViewById(R.id.action_save));

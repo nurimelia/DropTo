@@ -15,6 +15,7 @@ public abstract class Item {
     public String fileW;
     public String date;
     public String code;
+    public String deviceId;
 
     public abstract void setImage(ImageLoader imageLoader, ImageView image);
 
@@ -26,6 +27,10 @@ public abstract class Item {
 
     public  String getName() {
         return name;
+    }
+
+    public  String getDeviceId() {
+        return deviceId;
     }
 
     public abstract String getId();

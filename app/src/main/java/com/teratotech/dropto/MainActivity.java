@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import android.widget.ListView;
 import android.widget.ImageView;
@@ -240,7 +247,31 @@ public class MainActivity extends Activity {
         protected void onPostExecute(Void result) {
             // Locate the listview in listview_main.xml
             listview = (StickyListHeadersListView) findViewById(R.id.listview);
-            adapter  = new ListViewAdapter(MainActivity.this, getItemList());
+            List<Item> list =getItemList();
+            Collections.sort(list, new Comparator<Item>() {
+                @Override
+                public int compare(Item item, Item item2) {
+                    Log.i("item 1 ","" + item.getName() + ", " + item.getDeviceId());
+                    Log.i("item 2 ","" + item2.getName() + ", " + item2.getDeviceId());
+                    return item.getDeviceId().compareTo(item2.getDeviceId());
+                }
+            });
+
+            List<Long> headers = new LinkedList<Long>();
+            long header = 0;
+            String currentDeviceId, prevDeviceId = null;
+            for(int i = 0; i < list.size(); i++) {
+                currentDeviceId = list.get(i).getDeviceId();
+                if(prevDeviceId != null && currentDeviceId.equalsIgnoreCase(currentDeviceId)) {
+
+                } else {
+                    header++;
+                }
+
+                headers.add(header);
+                prevDeviceId = currentDeviceId;
+            }
+            adapter  = new ListViewAdapter(MainActivity.this, getItemList(), headers);
             // Pass the results into ListViewAdapter.java
             // Binds the Adapter to the ListView
             listview.setAdapter(adapter);

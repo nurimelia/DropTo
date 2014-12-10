@@ -31,6 +31,11 @@ public class FileItem extends Item{
     }
 
     @Override
+    public String getDeviceId() {
+        return dropto.getString("deviceId");
+    }
+
+    @Override
     public String getId() {
         return dropto.getObjectId();
     }
@@ -38,7 +43,7 @@ public class FileItem extends Item{
     @Override
     public String getCode() {
         return null;
-                //dropto.getCode();
+
     }
 
 }
