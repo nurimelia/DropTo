@@ -3,14 +3,16 @@ package com.teratotech.dropto;
 
 import java.util.Date;
 import java.util.List;
+
+import android.content.ContentResolver;
 import android.content.Context;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class ListViewAdapter extends ArrayAdapter<Item> implements StickyListHeadersAdapter {
@@ -49,7 +51,6 @@ public class ListViewAdapter extends ArrayAdapter<Item> implements StickyListHea
 
             view = LayoutInflater.from(getContext()).inflate(R.layout.listview_item, parent, false);
             // Locate the TextViews in listview_item.xml
-           // holder.fileName = (TextView) view.findViewById(R.id.textSeparator);
             holder.fileName = (TextView) view.findViewById(R.id.file_name);
             holder.expiryDate = (TextView) view.findViewById(R.id.expiryDate);
             holder.fileW = (ImageView) view.findViewById(R.id.file);
@@ -90,16 +91,16 @@ public class ListViewAdapter extends ArrayAdapter<Item> implements StickyListHea
         {
             holder = (ViewHolder) view.getTag();
         }
-        final Item item = getItem(position);
-        //holder.fileName.setText("Header " + headers.get(position));
-        holder.fileName.setText(item.getDeviceId());
-        return view; // the thing to display
+            final Item item = getItem(position);
+            //holder.fileName.setText("Header " + headers.get(position));
+            holder.fileName.setText(item.getDeviceId());
+            return view; // the thing to display
     }
 
     @Override
     public long getHeaderId(int i) {
         // sample: items in group a returns 1
-        // items in grooup b returns 2
+        // items in group b returns 2
         Item item = getItem(i);
         return item.getDeviceId().hashCode();
 

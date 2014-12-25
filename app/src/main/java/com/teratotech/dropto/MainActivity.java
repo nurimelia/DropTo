@@ -12,28 +12,21 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import android.widget.ListView;
 import android.widget.ImageView;
 
 import com.parse.DeleteCallback;
@@ -115,7 +108,6 @@ public class MainActivity extends Activity {
             }
         });
 
-
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         width = metrics.widthPixels;
@@ -136,6 +128,7 @@ public class MainActivity extends Activity {
         builder.setItems(options,new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int item){
+
                 if(options[item].equals("Download")) {
 
                     progressDialog = ProgressDialog.show(MainActivity.this, "","Downloading Image...", true);
@@ -145,21 +138,16 @@ public class MainActivity extends Activity {
 
                                     public void done(DropTo object,ParseException e) {
                                         // Locate the column named "Image Name" and set the string
-                                        ParseFile image = (ParseFile) object.get("file");
+                                        final ParseFile image = (ParseFile) object.get("file");
+                                        final String fileType = (String)object.get("fileType");
                                         image.getDataInBackground(new GetDataCallback() {
 
                                             public void done(byte[] data,ParseException e) {
                                                 if (e == null) {
-                                                    Log.d("test", "We've got data in data.");
-                                                    // Decode the Byte[] into Bitmap
-                                                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0,data.length);
-                                                    // Get the ImageView from listview.xml
-                                                    ImageView image = (ImageView) findViewById(R.id.file);
-                                                    // Set the Bitmap into theImageView
-                                                    image.setImageBitmap(bitmap);
 
                                                     Save saveFile = new Save();
-                                                    saveFile.SaveImage(MainActivity.this, bitmap);
+//                                                    saveFile.SaveImage(MainActivity.this, bitmap);
+                                                    saveFile.saveFile(MainActivity.this, data, fileType);
                                                     // Close progress dialog
                                                     progressDialog.dismiss();
 
@@ -181,6 +169,10 @@ public class MainActivity extends Activity {
                     startActivity(intent);
                 }
                 else if(options[item].equals("Remove")){
+                    List<Long> headers = new LinkedList<Long>();
+
+                    //getting unique id for device
+                    String id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
                     DropTo d = ((FileItem) pitem).dropto;
                     Log.d("MainActivity", "deleting " + d.getString("fileName"));
@@ -188,6 +180,7 @@ public class MainActivity extends Activity {
                         @Override
                         public void done(ParseException e) {
                             Log.d("MainActivity", "deleted");
+
                         }
                     });
                 }
@@ -309,7 +302,7 @@ public class MainActivity extends Activity {
         for(int i = 0; i < folderList.size(); i++) {
             Folder folder = new Folder();
             folder.name = folderList.get(i).getString("folderName");
-            folder.droptoF = folderList.get(i);
+            folder.dropto = folderList.get(i);
             Log.d("dt-mainactivity", "fn:" + folderList.get(i).getString("deviceId"));
 
             String hhh = folderList.get(i).getString("deviceId");

@@ -1,14 +1,13 @@
 package com.teratotech.dropto;
 
 import android.widget.ImageView;
-
 import java.util.Date;
 
 /**
  * Created by nurimelia on 11/4/14.
  */
 public class Folder extends Item{
-    public DropToFolder droptoF;
+    public DropToFolder dropto;
     @Override
     public void setImage(ImageLoader imageLoader, ImageView image) {
         image.setImageResource(R.drawable.seedericon);
@@ -25,16 +24,16 @@ public class Folder extends Item{
 
     @Override
     public String getId() {
-        return droptoF.getObjectId();
+        return dropto.getObjectId();
     }
     @Override
     public String getCode() {
-        return droptoF.getCode();
+        return dropto.getCode();
     }
 
     @Override
     public String getDeviceId() {
-        return droptoF.getDeviceId();
+        return dropto.getDeviceId();
 
     }
 }

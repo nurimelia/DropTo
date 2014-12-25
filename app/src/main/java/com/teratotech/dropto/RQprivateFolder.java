@@ -6,24 +6,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ListView;
-import android.widget.Toast;
-
-import com.parse.ParseException;
-import com.parse.SaveCallback;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 
 public class RQprivateFolder extends Activity {
 
     private FrameLayout searchButton;
     private FrameLayout cancelButton;
-    private ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

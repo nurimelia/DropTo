@@ -21,7 +21,6 @@ public class DroptoCreateFolder extends Activity {
     private DropToFolder dropToF;
     private FrameLayout saveButton;
     private TextView FolderName;
-    private TextView Code;
 
     public  static String[] randomNumbers=new String[4];
     public static byte[] fourDigits=new byte[4];
@@ -32,7 +31,7 @@ public class DroptoCreateFolder extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dropto_create_folder);
 
-        final Random myRandom = new Random();
+        //final Random myRandom = new Random();
         genRandomNumbers();
         while (status) ;
 
@@ -42,7 +41,17 @@ public class DroptoCreateFolder extends Activity {
         System.out.println("four digit random number : " + new String(fourDigits));
 
       final TextView textGenerateNumber = (TextView)findViewById(R.id.generatenumber);
-        textGenerateNumber.setText(String.valueOf(myRandom.nextInt(10000)));
+        textGenerateNumber.setText(String.valueOf(getFourDigitsRandom()));
+    }
+
+    private int getFourDigitsRandom() {
+        final Random myRandom = new Random();
+        while(true) {
+            int random =  myRandom.nextInt(10000);
+            if(random > 999) {
+                return random;
+            }
+        }
     }
 
     public  void genRandomNumbers() {
@@ -127,7 +136,6 @@ public class DroptoCreateFolder extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
         return super.onOptionsItemSelected(item);
     }
 }

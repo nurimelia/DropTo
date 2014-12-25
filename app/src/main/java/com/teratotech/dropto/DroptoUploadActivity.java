@@ -18,22 +18,20 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
-
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -111,7 +109,7 @@ public class DroptoUploadActivity extends Activity {
                 dropTo = new DropTo();
             // When the user clicks "Save," upload the file to Parse / Add data to the dropto object:
                 dropTo.setfileName(FileName.getText().toString());
-                dropTo.setFileType("jpg");
+                //dropTo.setFileType("jpg");
 
                 if (folderId != null) dropTo.setFolderId(folderId);
 
@@ -121,23 +119,37 @@ public class DroptoUploadActivity extends Activity {
                 long newms = currentms + durations[pos];
                 Date expiry = new Date();
 
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                Bitmap b = BitmapFactory.decodeFile(selectedGalleryFileName);
-                b.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                dropTo.setPhotoFile(new ParseFile(stream.toByteArray()));
-
-                // If the user added a video,
-                //ByteArrayOutputStream baos = new ByteArrayOutputStream();
-              //  FileInputStream fis = new FileInputStream(new FileInputStream());
-               // byte[] videoBytes = baos.toByteArray(); //this is the video in bytes.
+                File file = new File(selectedGalleryFileName);
+                if(isPicture(file)) {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    Bitmap b = BitmapFactory.decodeFile(selectedGalleryFileName);
+                    b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    dropTo.setFile(new ParseFile(stream.toByteArray()));
+                    dropTo.setFileType("jpg");
+                } else if(isVideo(file)) {
+                    try {
+                        FileInputStream fis = new FileInputStream(file);
+                        byte[] byteArray = new byte[(int)file.length()];
+                        fis.read(byteArray);
+                        dropTo.setFile(new ParseFile(byteArray));
+                        dropTo.setFileType("3gp");
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Invalid file.", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 gps = new GPSTracker(DroptoUploadActivity.this);
 
-                     // check
+                // check
                 expiry.setTime(newms);
                 dropTo.setDate(expiry);
 
-                // If the user added a photo, if GPS enabled
+                //If the user added a photo, if GPS enabled
                      double latitude = gps.getLatitude();
                      double longitude = gps.getLongitude();
                      ParseGeoPoint pgp = new ParseGeoPoint(latitude, longitude);
@@ -307,6 +319,15 @@ public class DroptoUploadActivity extends Activity {
 
                 Log.w("path of image from gallery......******************.........", picturePath + "");
                 viewImage.setImageBitmap(thumbnail);
+            } else if(requestCode == 3 || requestCode == 4) {
+                Uri selectedImage = data.getData();
+                String[] filePath = {MediaStore.Images.Media.DATA};
+                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePath[0]);
+                String picturePath = c.getString(columnIndex);
+                c.close();
+                selectedGalleryFileName = picturePath;
             }
         }
     }
@@ -318,5 +339,33 @@ public class DroptoUploadActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isPicture(File file) {
+        if(file == null && file.exists()) {
+            return false;
+        }
+        int extensionIndex = file.getName().lastIndexOf(".");
+        if(extensionIndex == -1) {
+            return false;
+        }
+
+        String extension = file.getName().substring(extensionIndex + 1);
+
+        return extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("png");
+    }
+
+    private boolean isVideo(File file) {
+        if(file == null && file.exists()) {
+            return false;
+        }
+        int extensionIndex = file.getName().lastIndexOf(".");
+        if(extensionIndex == -1) {
+            return false;
+        }
+
+        String extension = file.getName().substring(extensionIndex + 1);
+
+        return extension.equalsIgnoreCase("mp4") || extension.equalsIgnoreCase("3gp") || extension.equalsIgnoreCase("mkv");
     }
 }

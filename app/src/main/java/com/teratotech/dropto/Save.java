@@ -25,6 +25,7 @@ public class Save {
     private String NameOfFile   = "Image";
 
 
+
     public void SaveImage(Context context,Bitmap ImageToSave){
         TheThis = context;
         String file_path = Environment.getExternalStorageDirectory().getAbsolutePath()+ NameOfFolder;
@@ -44,26 +45,34 @@ public class Save {
             fOut.close();
             MakeSureFileWasCreatedThenMakeAvabile(file);
             AbleToSave();
-
         }
         catch (FileNotFoundException e) {UnableToSave();}
         catch (IOException e){UnableToSave();}
     }
 
+    public void saveFile(Context context, byte[] data, String fileType) {
+        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ NameOfFolder);
+        File file = new File(folder, NameOfFile +getCurrentDateAndTime() +"." + fileType);
+        try {
+            FileOutputStream fOut = new FileOutputStream(file);
+            fOut.write(data);
+            fOut.flush();
+            fOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private void MakeSureFileWasCreatedThenMakeAvabile(File file) {
-        MediaScannerConnection.scanFile(TheThis,
-                new String[]{file.toString()}, null,
+        MediaScannerConnection.scanFile(TheThis,new String[]{file.toString()}, null,
                 new MediaScannerConnection.OnScanCompletedListener() {
                     public void onScanCompleted(String path, Uri uri) {
                         Log.e("ExternalStorage", "Scanned " + path + ":");
                         Log.e("ExternalStorage", "-> uri=" + uri);
-
                     }
                 });
-
     }
-
-
 
     private String getCurrentDateAndTime() {
         Calendar c = Calendar.getInstance();
@@ -71,7 +80,6 @@ public class Save {
         String formattedDate = df.format(c.getTime());
         return formattedDate;
     }
-
 
     private void UnableToSave() {
         Toast.makeText(TheThis, "Picture cannot to gallery", Toast.LENGTH_SHORT).show();

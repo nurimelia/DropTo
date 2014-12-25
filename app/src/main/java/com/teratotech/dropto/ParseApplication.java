@@ -1,6 +1,5 @@
 package com.teratotech.dropto;
 
-import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseUser;
 import android.app.Application;

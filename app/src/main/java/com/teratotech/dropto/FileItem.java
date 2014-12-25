@@ -1,7 +1,6 @@
 package com.teratotech.dropto;
 
 import android.widget.ImageView;
-
 import java.util.Date;
 
 /**

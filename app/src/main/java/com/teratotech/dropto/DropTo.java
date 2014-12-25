@@ -3,14 +3,10 @@ package com.teratotech.dropto;
 /**
  * Created by nurimelia on 10/13/14.
  */
-import android.graphics.Bitmap;
-
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
-import com.parse.SaveCallback;
-
 import java.util.Date;
 
 
@@ -44,7 +40,7 @@ public class DropTo extends ParseObject {
         put("expiryDate", expiryDate);
     }
 
-    public void setPhotoFile(ParseFile file) {
+    public void setFile(ParseFile file) {
         put("file", file);
     }
 

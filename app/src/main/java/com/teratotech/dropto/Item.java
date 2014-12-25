@@ -2,8 +2,6 @@ package com.teratotech.dropto;
 
 import android.widget.ImageView;
 
-import com.parse.ParseFile;
-
 import java.util.Date;
 
 /**
