@@ -7,16 +7,16 @@
     <string name="action_folder">Private Folder</string>
     <string name="action_download">Download</string>
     <string name="upload_button">Upload</string>
-    <string name="create_folder">Create Private Folder</string>
+    <string name="create_folder">Create Folder</string>
     <string name="show_action_sheet">Button</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_dropto_upload">Dropto Upload</string>
+    <string name="title_activity_dropto_upload">Upload File</string>
     <string name="label_discard">Cancle</string>
     <string name="label_save">Save</string>
     <string name="label_title">Title</string>
     <string name="title_activity_dropto_download">Download</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_createFolder">Create Folder</string>
+    <string name="title_activity_createFolder">Create Private Folder</string>
     <string name="menu_title">DropTo Files</string>
     <string name="action_refresh">Refresh</string>
     <string name="save_button_text">Save</string>
@@ -30,10 +30,10 @@
         <item>72 hour</item>
     </string-array>
 
-    <string name="title_activity_rqprivate_folder">RQprivateFolder</string>
+    <string name="title_activity_rqprivate_folder">Request Private Folder</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_re_upload">ReUpload</string>
-    <string name="title_activity_upload_to_folder">UploadToFolder</string>
+    <string name="title_activity_upload_to_folder">Upload To Folder</string>
     <string name="title_activity_files_in_folder">Files In Folder</string>
 
 </resources>

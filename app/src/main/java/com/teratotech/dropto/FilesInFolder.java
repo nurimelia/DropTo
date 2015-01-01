@@ -172,10 +172,15 @@ public class FilesInFolder extends Activity {
 
                     DropTo d = ((FileItem) pitem).dropto;
                     Log.d("MainActivity", "deleting " + d.getString("fileName"));
+                    progressDialog = ProgressDialog.show(FilesInFolder.this, "", "Loading...", true);
                     d.deleteInBackground(new DeleteCallback() {
                         @Override
                         public void done(ParseException e) {
                             Log.d("MainActivity", "deleted");
+                            progressDialog.dismiss();
+                            listview.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                            reloadAllData();
                         }
                     });
                 }

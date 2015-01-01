@@ -1,6 +1,7 @@
 package com.teratotech.dropto;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
@@ -25,6 +26,7 @@ public class DroptoCreateFolder extends Activity {
     public  static String[] randomNumbers=new String[4];
     public static byte[] fourDigits=new byte[4];
     private  static boolean status=true;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class DroptoCreateFolder extends Activity {
         final TextView textGenerateNumber = (TextView)findViewById(R.id.generatenumber);
 
         saveButton = ((FrameLayout) findViewById(R.id.action_save));
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +94,7 @@ public class DroptoCreateFolder extends Activity {
                 //getting unique id for device
                 String id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
                 dropToF.setDeviceId(id);
-
+                progressDialog = ProgressDialog.show(DroptoCreateFolder.this, "", "Loading...", true);
                 // Save the DroptoFolder file and return
                 dropToF.saveInBackground(new SaveCallback() {
 
@@ -101,6 +104,7 @@ public class DroptoCreateFolder extends Activity {
                             Toast.makeText(
                                     getApplicationContext(),
                                     "Folder is saved. ", Toast.LENGTH_SHORT).show();
+
                             finish();
                         }else {
                                 Toast.makeText(

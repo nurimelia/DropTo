@@ -58,6 +58,7 @@ public class MainActivity extends Activity {
     private int width;
     private WindowManager.LayoutParams params;
     private ProgressDialog progressDialog;
+    CharSequence[] options;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,66 +122,76 @@ public class MainActivity extends Activity {
     }
 
     private void selectDownload(final Item pitem) {
-        final CharSequence[] options = {"Download", "ReUpload","Remove"};
+        final String id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
+
+        CharSequence[] o1 = {"Download", "ReUpload","Remove"};
+        CharSequence[] o2 = {"Download"};
+        if (pitem.getDeviceId().equals(id)) {
+           // return 1;
+           options = o1;
+        } else {
+           // return 3;
+           options = o2;
+        }
+     //   final CharSequence[] options = {"Download", "ReUpload","Remove"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Download!");
-        builder.setItems(options,new DialogInterface.OnClickListener(){
+
+        builder.setItems(options,new DialogInterface.OnClickListener() {
+
             @Override
-            public void onClick(DialogInterface dialog, int item){
+            public void onClick(DialogInterface dialog, int item) {
 
-                if(options[item].equals("Download")) {
+                if (options[item].equals("Download")) {
 
-                    progressDialog = ProgressDialog.show(MainActivity.this, "","Downloading Image...", true);
+                    progressDialog = ProgressDialog.show(MainActivity.this, "", "Downloading File...", true);
                     ParseQuery<DropTo> query = new ParseQuery<DropTo>("File");
                     // Locate the objectId from the class
                     query.getInBackground(pitem.getId(), new GetCallback<DropTo>() {
 
-                                    public void done(DropTo object,ParseException e) {
-                                        // Locate the column named "Image Name" and set the string
-                                        final ParseFile image = (ParseFile) object.get("file");
-                                        final String fileType = (String)object.get("fileType");
-                                        image.getDataInBackground(new GetDataCallback() {
+                        public void done(DropTo object, ParseException e) {
+                            // Locate the column named "Image Name" and set the string
+                            final ParseFile image = (ParseFile) object.get("file");
+                            final String fileType = (String) object.get("fileType");
+                            image.getDataInBackground(new GetDataCallback() {
 
-                                            public void done(byte[] data,ParseException e) {
-                                                if (e == null) {
+                                public void done(byte[] data, ParseException e) {
+                                    if (e == null) {
 
-                                                    Save saveFile = new Save();
-//                                                    saveFile.SaveImage(MainActivity.this, bitmap);
-                                                    saveFile.saveFile(MainActivity.this, data, fileType);
-                                                    // Close progress dialog
-                                                    progressDialog.dismiss();
+                                        Save saveFile = new Save();
+                                        // saveFile.SaveImage(MainActivity.this, bitmap);
+                                        saveFile.saveFile(MainActivity.this, data, fileType);
+                                        // Close progress dialog
+                                        progressDialog.dismiss();
 
-                                                } else {
-                                                    Log.d("test", "There was a problem downloading the data.");
-                                                }
-                                            }
-                                        });
+                                    } else {
+                                        Log.d("test", "There was a problem downloading the data.");
                                     }
-                                });
-                            }
+                                }
+                            });
+                        }
+                    });
+                } else if (options[item].equals("ReUpload")) {
 
-                else if (options[item].equals("ReUpload"))
-                {
                     Intent intent = new Intent(MainActivity.this, ReUpload.class);
                     Bundle b = new Bundle();
-                    b.putString("objectId",pitem.getId());
+                    b.putString("objectId", pitem.getId());
                     intent.putExtras(b);
                     startActivity(intent);
-                }
-                else if(options[item].equals("Remove")){
-                    List<Long> headers = new LinkedList<Long>();
 
-                    //getting unique id for device
-                    String id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                } else if (options[item].equals("Remove")) {
 
                     DropTo d = ((FileItem) pitem).dropto;
                     Log.d("MainActivity", "deleting " + d.getString("fileName"));
                     d.deleteInBackground(new DeleteCallback() {
+
                         @Override
                         public void done(ParseException e) {
                             Log.d("MainActivity", "deleted");
-
+                            adapter.notifyDataSetChanged();
+                            reloadAllData();
                         }
                     });
                 }
@@ -285,6 +296,13 @@ public class MainActivity extends Activity {
 
         // All the items
         Date n = new Date();
+
+        Collections.sort(dropToList, new Comparator<DropTo>() {
+            @Override
+            public int compare(DropTo dropTo, DropTo dropTo2) {
+                return 0;
+            }
+        });
 
         for (DropTo d : dropToList) {
             FileItem fileItem = new FileItem();

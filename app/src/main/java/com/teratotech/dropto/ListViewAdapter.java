@@ -69,19 +69,21 @@ public class ListViewAdapter extends ArrayAdapter<Item> implements StickyListHea
 
         Date d = item.getDate();
         holder.fileName.setText(item.getName());
+        String c = item.getCode();
             // Set the results into ImageView
         item.setImage(imageLoader, holder.fileW);
 
         if (d != null) {
             holder.expiryDate.setText(d.toString());
         } else {
-            holder.expiryDate.setText("Folder");
+            holder.expiryDate.setText(c.toString());
         }
         return view;
     }
 
     @Override
     public View getHeaderView(int position, View view, ViewGroup parent) {
+
         ViewHolder holder = new ViewHolder();
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.header, parent, false);
@@ -91,8 +93,9 @@ public class ListViewAdapter extends ArrayAdapter<Item> implements StickyListHea
         {
             holder = (ViewHolder) view.getTag();
         }
-            final Item item = getItem(position);
-            //holder.fileName.setText("Header " + headers.get(position));
+
+        final Item item = getItem(position);
+        //holder.fileName.setText("Header " + headers.get(position));
             holder.fileName.setText(item.getDeviceId());
             return view; // the thing to display
     }
@@ -101,8 +104,19 @@ public class ListViewAdapter extends ArrayAdapter<Item> implements StickyListHea
     public long getHeaderId(int i) {
         // sample: items in group a returns 1
         // items in group b returns 2
+
+        //getting unique id for device
+        String id = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+
         Item item = getItem(i);
-        return item.getDeviceId().hashCode();
+
+        if (item.getDeviceId().equals(id)) {
+            return 1;
+        } else {
+            return 3;
+        }
+
+        //return item.getDeviceId().hashCode();
 
 
     }
