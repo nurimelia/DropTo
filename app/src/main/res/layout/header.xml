@@ -9,7 +9,7 @@
         android:id="@+id/textSeparator"
         style="?android:attr/listSeparatorTextViewStyle"
         android:layout_width="fill_parent"
-        android:layout_height="20dp"
+        android:layout_height="25dp"
         android:textColor="@color/black"
         android:background="#DC1414"
         />

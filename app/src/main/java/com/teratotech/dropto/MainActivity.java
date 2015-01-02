@@ -275,7 +275,7 @@ public class MainActivity extends Activity {
                 headers.add(header);
                 prevDeviceId = currentDeviceId;
             }
-            adapter  = new ListViewAdapter(MainActivity.this, getItemList(), headers);
+            adapter  = new ListViewAdapter(MainActivity.this, list, headers);
             // Pass the results into ListViewAdapter.java
             // Binds the Adapter to the ListView
             listview.setAdapter(adapter);
@@ -296,13 +296,6 @@ public class MainActivity extends Activity {
 
         // All the items
         Date n = new Date();
-
-        Collections.sort(dropToList, new Comparator<DropTo>() {
-            @Override
-            public int compare(DropTo dropTo, DropTo dropTo2) {
-                return 0;
-            }
-        });
 
         for (DropTo d : dropToList) {
             FileItem fileItem = new FileItem();

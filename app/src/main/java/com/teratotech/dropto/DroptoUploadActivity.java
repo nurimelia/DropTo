@@ -177,8 +177,7 @@ public class DroptoUploadActivity extends Activity {
                                 finish();
                         } else {
                             Toast.makeText(
-                                    getApplicationContext(),
-                                    "Error saving: " + e.getMessage(),
+                                    getApplicationContext(),"Error saving: " + e.getMessage(),
                                     Toast.LENGTH_SHORT).show();
                                 // can't get location / GPS or Network is not enabled
                                 // Ask user to enable GPS/network in settings

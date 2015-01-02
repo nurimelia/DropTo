@@ -94,9 +94,20 @@ public class ListViewAdapter extends ArrayAdapter<Item> implements StickyListHea
             holder = (ViewHolder) view.getTag();
         }
 
-        final Item item = getItem(position);
-        //holder.fileName.setText("Header " + headers.get(position));
-            holder.fileName.setText(item.getDeviceId());
+
+        String id = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+
+        Item item = getItem(position);
+
+        if (item.getDeviceId().equals(id)) {
+            holder.fileName.setText("Seeder" );
+
+        } else {
+            holder.fileName.setText("Other" );
+        }
+        //final Item item = getItem(position);
+       //holder.fileName.setText("Header "+ headers.get(position));
+           // holder.fileName.setText(item.getDeviceId());
             return view; // the thing to display
     }
 
