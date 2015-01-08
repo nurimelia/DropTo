@@ -105,7 +105,7 @@ public class DroptoUploadActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                progressDialog = ProgressDialog.show(DroptoUploadActivity.this, "", "Uploading File...", true);
+                progressDialog = ProgressDialog.show(DroptoUploadActivity.this,"", "Uploading File...", true);
                 dropTo = new DropTo();
             // When the user clicks "Save," upload the file to Parse / Add data to the dropto object:
                 dropTo.setfileName(FileName.getText().toString());
@@ -118,21 +118,26 @@ public class DroptoUploadActivity extends Activity {
                 long currentms = System.currentTimeMillis();
                 long newms = currentms + durations[pos];
                 Date expiry = new Date();
-
+            Log.w("UploadActivity", "f:" + selectedGalleryFileName);
                 File file = new File(selectedGalleryFileName);
+
                 if(isPicture(file)) {
+
+                    final BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inSampleSize = 2;
+
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    Bitmap b = BitmapFactory.decodeFile(selectedGalleryFileName);
-                    b.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    dropTo.setFile(new ParseFile(stream.toByteArray()));
+                    Bitmap b = BitmapFactory.decodeFile(selectedGalleryFileName, options);
+                    b.compress(Bitmap.CompressFormat.JPEG, 60, stream);
+                    dropTo.setFile(new ParseFile("file.jpg",stream.toByteArray()));
                     dropTo.setFileType("jpg");
                 } else if(isVideo(file)) {
                     try {
                         FileInputStream fis = new FileInputStream(file);
                         byte[] byteArray = new byte[(int)file.length()];
                         fis.read(byteArray);
-                        dropTo.setFile(new ParseFile(byteArray));
-                        dropTo.setFileType("3gp");
+                        dropTo.setFile(new ParseFile("file.mp4", byteArray));
+                        dropTo.setFileType("mp4");
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -282,17 +287,16 @@ public class DroptoUploadActivity extends Activity {
                     viewImage.setImageBitmap(bitmap);
 
                     String path = android.os.Environment
-                            .getExternalStorageDirectory()
-                            + File.separator
-                            + "Phoenix" + File.separator + "default";
-                    f.delete();
+                            .getExternalStorageDirectory().toString();
+                    //f.delete();
                     OutputStream outFile = null;
                     File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
                     try {
                         outFile = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 60, outFile);
                         outFile.flush();
                         outFile.close();
+                        selectedGalleryFileName = file.getAbsolutePath();
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -318,7 +322,23 @@ public class DroptoUploadActivity extends Activity {
 
                 Log.w("path of image from gallery......******************.........", picturePath + "");
                 viewImage.setImageBitmap(thumbnail);
-            } else if(requestCode == 3 || requestCode == 4) {
+            } else if(requestCode == 3) {
+                File f = new File(Environment.getExternalStorageDirectory().toString());
+                for (File temp : f.listFiles()) {
+                    if (temp.getName().equals("myvideo.mp4")) {
+                        f = temp;
+                        break;
+                    }
+                }
+                Uri selectedImage = data.getData();
+                /*String[] filePath = {MediaStore.Images.Media.DATA};
+                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePath[0]);
+                String picturePath = c.getString(columnIndex);
+                c.close();*/
+                selectedGalleryFileName = f.getAbsolutePath();
+            }else if(requestCode == 4){
                 Uri selectedImage = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
                 Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
@@ -328,6 +348,7 @@ public class DroptoUploadActivity extends Activity {
                 c.close();
                 selectedGalleryFileName = picturePath;
             }
+
         }
     }
 

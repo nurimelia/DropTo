@@ -5,10 +5,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +19,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
@@ -30,7 +28,6 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -39,7 +36,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class FilesInFolder extends Activity {
-
     // Declare Variables
     ListView listview;
     List<DropTo> ob;
@@ -55,6 +51,8 @@ public class FilesInFolder extends Activity {
     private ProgressDialog progressDialog;
 
     private String folderId;
+    CharSequence[] options;
+    MenuItem uploadBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +62,6 @@ public class FilesInFolder extends Activity {
         ParseObject.registerSubclass(DropToFolder.class);
         Parse.initialize(this, "ZJMejxcTIMNyuWWviiP3eQkELIZ1mZ7dqQVIolpV", "ZGejA1DwbSu6cQRoooA4yCBcglC0AYoxEi2ouHNU");
         ParseAnalytics.trackAppOpened(getIntent());
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_files_in_folder);
 
         Bundle a = getIntent().getExtras();
         folderId = a.getString("objectId");
@@ -121,7 +116,17 @@ public class FilesInFolder extends Activity {
         new RemoteDataTask().execute();
     }
     private void selectDownload(final Item pitem) {
-        final CharSequence[] options = {"Download", "ReUpload","Remove"};
+
+        final String id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
+        CharSequence[] o1 = {"Download", "ReUpload","Remove"};
+        CharSequence[] o2 = {"Download"};
+
+        if (pitem.getDeviceId().equals(id)) {
+            options = o1;
+        } else {
+            options = o2;
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(FilesInFolder.this);
         builder.setTitle("Download!");
@@ -137,17 +142,16 @@ public class FilesInFolder extends Activity {
 
                         public void done(DropTo object,ParseException e) {
                             // Locate the column named "Image Name" and set the string
-                            ParseFile image = (ParseFile) object.get("file");
+                            final ParseFile image = (ParseFile) object.get("file");
+                            final String fileType = (String) object.get("fileType");
                             image.getDataInBackground(new GetDataCallback() {
 
-                                public void done(byte[] data,ParseException e) {
+                                public void done(byte[] data, ParseException e) {
                                     if (e == null) {
-                                        Log.d("test", "We've got data in data.");
-                                           // Decode the Byte[] into Bitmap
-                                        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
 
                                         Save saveFile = new Save();
-                                        saveFile.SaveImage(FilesInFolder.this, bitmap);
+                                        // saveFile.SaveImage(MainActivity.this, bitmap);
+                                        saveFile.saveFile(FilesInFolder.this, data, fileType);
                                         // Close progress dialog
                                         progressDialog.dismiss();
 
@@ -189,8 +193,12 @@ public class FilesInFolder extends Activity {
         builder.show();
     }
 
+
+
     // RemoteDataTask AsyncTask
     private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
+        private String deviceId;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -212,10 +220,13 @@ public class FilesInFolder extends Activity {
             try {
                 // Locate the class table named "File" in Parse.com
                 ParseQuery<DropTo> query = new ParseQuery<DropTo>("File");
-
+                ParseQuery<DropToFolder> folderQuery = new ParseQuery<DropToFolder>("Folder");
 
                 DropToFolder f = (DropToFolder) DropToFolder.createWithoutData("Folder", folderId);
 
+                DropToFolder folderObj = folderQuery.get(folderId);
+                Log.w("fif", "folder's device id: " + folderObj.getDeviceId());
+                deviceId = folderObj.getDeviceId();
                 query.orderByAscending("fileName");
                 query.whereEqualTo("folderId", f);
 
@@ -238,6 +249,7 @@ public class FilesInFolder extends Activity {
 
         @Override
         protected void onPostExecute(Void result) {
+            setMenu(deviceId);
             // Locate the listview in listview_main.xml
             listview = (ListView) findViewById(R.id.listview);
             List<Item> list =getItemList();
@@ -262,7 +274,7 @@ public class FilesInFolder extends Activity {
                 headers.add(header);
                 prevDeviceId = currentDeviceId;
             }
-            adapter  = new ListViewAdapter(FilesInFolder.this, getItemList(), headers);
+            adapter  = new ListViewAdapter(FilesInFolder.this, list, headers);
             // Pass the results into ListViewAdapter.java
             // Binds the Adapter to the ListView
             listview.setAdapter(adapter);
@@ -279,7 +291,6 @@ public class FilesInFolder extends Activity {
         Date n = new Date();
 
         for (DropTo d : dropToList) {
-
             FileItem fileItem = new FileItem();
             fileItem.name = d.getString("fileName");
             fileItem.dropto = d;
@@ -296,13 +307,25 @@ public class FilesInFolder extends Activity {
         new RemoteDataTask().execute();
     }
 
+    private void setMenu(String deviceId) {
+        String id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (deviceId.equals(id)) {
+            uploadBtn.setVisible(true);
+        }else{
+            uploadBtn.setVisible(false);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.files_in_folder, menu);
+        uploadBtn = menu.findItem(R.id.upload);
+        uploadBtn.setVisible(false);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

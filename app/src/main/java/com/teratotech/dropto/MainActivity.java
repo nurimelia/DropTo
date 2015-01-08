@@ -124,17 +124,13 @@ public class MainActivity extends Activity {
     private void selectDownload(final Item pitem) {
         final String id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-
         CharSequence[] o1 = {"Download", "ReUpload","Remove"};
         CharSequence[] o2 = {"Download"};
         if (pitem.getDeviceId().equals(id)) {
-           // return 1;
            options = o1;
         } else {
-           // return 3;
            options = o2;
         }
-     //   final CharSequence[] options = {"Download", "ReUpload","Remove"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Download!");
@@ -143,8 +139,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(DialogInterface dialog, int item) {
-
-                if (options[item].equals("Download")) {
+                if(options[item].equals("Download")) {
 
                     progressDialog = ProgressDialog.show(MainActivity.this, "", "Downloading File...", true);
                     ParseQuery<DropTo> query = new ParseQuery<DropTo>("File");
@@ -159,7 +154,6 @@ public class MainActivity extends Activity {
 
                                 public void done(byte[] data, ParseException e) {
                                     if (e == null) {
-
                                         Save saveFile = new Save();
                                         // saveFile.SaveImage(MainActivity.this, bitmap);
                                         saveFile.saveFile(MainActivity.this, data, fileType);

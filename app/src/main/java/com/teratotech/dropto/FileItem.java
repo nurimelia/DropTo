@@ -1,6 +1,7 @@
 package com.teratotech.dropto;
 
 import android.widget.ImageView;
+import com.parse.ParseFile;
 import java.util.Date;
 
 /**
@@ -11,7 +12,11 @@ public class FileItem extends Item{
 
     @Override
     public void setImage(ImageLoader imageLoader, ImageView imageView) {
-        imageLoader.DisplayImage(dropto.getParseFile("file").getUrl(), imageView);
+        if (dropto == null) return;
+        ParseFile img = dropto.getParseFile("file");
+        if (img == null) return;
+
+        imageLoader.DisplayImage(img.getUrl(), imageView);
     }
 
     @Override
