@@ -75,29 +75,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_title"
-            android:textColor="#000000"/>
-
-        <TextView
-            android:id="@+id/droptoprivate_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textCapWords"
-            android:textColor="#000000"/>  -->
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="4-digit code"
-            android:textColor="#000000"
-            android:layout_marginTop="40dp"/>
-
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -105,7 +82,8 @@
             android:textSize="50dp"
             android:layout_marginTop="10dp"
             android:inputType="number"
-            android:textColor="#000000"/>
+            android:textColor="#000000"
+            android:hint="4-Digit Code" />
 
 
 

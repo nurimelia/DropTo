@@ -78,21 +78,14 @@
         android:orientation="vertical"
         android:padding="3dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="1dp"
-            android:text="@string/dropto_label"
-            android:textSize="15sp"
-            android:textColor="@color/black"/>
-
         <EditText
             android:id="@+id/file_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="50dp"
+            android:hint="File Name"/>
 
         <Button
             android:layout_width="fill_parent"

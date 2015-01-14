@@ -28,28 +28,13 @@
             <TextView
                 android:id="@+id/tvUpload"
                 android:layout_width="fill_parent"
-                android:layout_height="35dp"
+                android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/desc_rounded_no_padding_black"
                 android:gravity="center"
                 android:text="@string/upload_button"
                 android:textColor="#000000"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/cancel"
-                android:layout_width="fill_parent"
-                android:layout_height="35dp"
-                android:layout_below="@+id/tvUpload"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/desc_rounded_no_padding_black"
-                android:gravity="center"
-                android:text="Cancel"
-                android:textColor="#000000"
-                android:textSize="15sp"/>
-
+                android:textSize="35sp" />
 
             <View
                 android:layout_width="fill_parent"

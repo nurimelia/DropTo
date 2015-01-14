@@ -99,10 +99,10 @@ public class ListViewAdapter extends ArrayAdapter<Item> implements StickyListHea
         Item item = getItem(position);
 
         if (item.getDeviceId().equals(id)) {
-            holder.fileName.setText("Seed" );
+            holder.fileName.setText("Own" );
 
         } else {
-            holder.fileName.setText("Leech" );
+            holder.fileName.setText("Nearby" );
         }
             return view; // the thing to display
     }

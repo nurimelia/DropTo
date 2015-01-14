@@ -59,16 +59,19 @@
         </activity>
         <activity
             android:name=".DroptoUploadActivity"
-            android:label="@string/title_activity_dropto_upload" >
+            android:label="@string/title_activity_dropto_upload"
+            android:windowSoftInputMode="stateVisible">
         </activity>
         <activity
             android:name=".DroptoCreateFolder"
-            android:label="@string/title_activity_createFolder" >
+            android:label="@string/title_activity_createFolder"
+            android:windowSoftInputMode="stateVisible">
         </activity>
 
         <activity
             android:name=".RQprivateFolder"
-            android:label="@string/title_activity_rqprivate_folder" >
+            android:label="@string/title_activity_rqprivate_folder"
+            android:windowSoftInputMode="stateVisible">
         </activity>
         <activity
             android:name=".ReUpload"

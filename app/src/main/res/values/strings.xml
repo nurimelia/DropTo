@@ -30,7 +30,7 @@
         <item>72 hour</item>
     </string-array>
 
-    <string name="title_activity_rqprivate_folder">Request Private Folder</string>
+    <string name="title_activity_rqprivate_folder">Find Private Folder</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_re_upload">ReUpload</string>
     <string name="title_activity_upload_to_folder">Upload To Folder</string>

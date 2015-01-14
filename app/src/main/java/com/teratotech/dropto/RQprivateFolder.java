@@ -18,13 +18,13 @@ public class RQprivateFolder extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rqprivate_folder);
+        final EditText editText = (EditText) findViewById(R.id.generatenumber);
 
         searchButton = ((FrameLayout) findViewById(R.id.search));
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
 
-                            EditText editText = (EditText) findViewById(R.id.generatenumber);
                             String code= editText.getText().toString();
 
                             Intent intent = new Intent(RQprivateFolder.this, MainActivity.class);
@@ -45,7 +45,7 @@ public class RQprivateFolder extends Activity {
             }
         });
 
-        return ;
+        //editText.requestFocus();
     }
 
 

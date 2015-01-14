@@ -81,14 +81,7 @@ public class FilesInFolder extends Activity {
                 startActivity(intent);
             }
         });
-        TextView tvCreateFolder = (TextView) findViewById(R.id.cancel);
-        tvCreateFolder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View item) {
-                setResult(Activity.RESULT_CANCELED);
-                finish();
-            }
-        });
+
 
         ListView list = (ListView) findViewById(R.id.listview);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
